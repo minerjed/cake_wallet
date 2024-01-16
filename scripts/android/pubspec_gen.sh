@@ -3,6 +3,7 @@
 MONERO_COM=monero.com
 CAKEWALLET=cakewallet
 HAVEN=haven
+XCASH=xcash
 CONFIG_ARGS=""
 
 case $APP_ANDROID_TYPE in
@@ -14,6 +15,9 @@ case $APP_ANDROID_TYPE in
                 ;;
         $HAVEN)
                 CONFIG_ARGS="--haven"
+                ;;
+        $XCASH)
+                CONFIG_ARGS="--xcash"
                 ;;
 esac
 

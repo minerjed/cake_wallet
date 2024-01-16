@@ -30,8 +30,8 @@ jobs:
           sudo mkdir -p /opt/android
           sudo chown $USER /opt/android
           cd /opt/android
-          git clone https://github.com/cake-tech/cake_wallet.git --branch main
-          cd cake_wallet/scripts/android/
+          git clone https://github.com/minerjed/xcash_cakewallet.git --branch main
+          cd xcash_cakewallet/scripts/android/
           ./install_ndk.sh
           source ./app_env.sh cakewallet
           ./app_config.sh
@@ -41,17 +41,19 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            /opt/android/cake_wallet/cw_haven/android/.cxx
-            /opt/android/cake_wallet/cw_haven/ios/External
-            /opt/android/cake_wallet/cw_monero/android/.cxx
-            /opt/android/cake_wallet/cw_monero/ios/External
-            /opt/android/cake_wallet/cw_shared_external/ios/External
+            /opt/android/xcash_cakewallet/cw_haven/android/.cxx
+            /opt/android/xcash_cakewallet/cw_haven/ios/External
+            /opt/android/xcash_cakewallet/xcash/android/.cxx
+            /opt/android/xcash_cakewallet/xcash/ios/External
+            /opt/android/xcash_cakewallet/cw_monero/android/.cxx
+            /opt/android/xcash_cakewallet/cw_monero/ios/External
+            /opt/android/xcash_cakewallet/cw_shared_external/ios/External
           key: ${{ hashFiles('**/build_monero.sh', '**/build_haven.sh', '**/monero_api.cpp') }}
 
       - if: ${{ steps.cache-externals.outputs.cache-hit != 'true' }}
         name: Generate Externals
         run: |
-          cd /opt/android/cake_wallet/scripts/android/
+          cd /opt/android/xcash_cakewallet/scripts/android/
           source ./app_env.sh cakewallet
           ./build_all.sh
           ./copy_monero_deps.sh
