@@ -12,4 +12,5 @@ case $APP_ANDROID_TYPE in
 	"cakewallet") $DIR/build_monero_all.sh
 				  $DIR/build_haven.sh ;;
 	"haven")      $DIR/build_haven_all.sh ;;
+	"xcash")      $DIR/build_xcash_all.sh ;;
 esac
