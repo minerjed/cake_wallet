@@ -11,6 +11,10 @@ bool get isHaven {
         && availableWalletTypes.first == WalletType.haven;
 }
 
+bool get isX {
+    return availableWalletTypes.length == 1
+        && availableWalletTypes.first == WalletType.xcash;
+}
 
 bool get isSingleCoin {
      return availableWalletTypes.length == 1;
@@ -23,6 +27,10 @@ String get approximatedAppName {
 
     if (isHaven) {
         return 'Haven';
+    }
+
+    if (isX) {
+        return 'XCash';
     }
      
     return 'Cake Wallet';
