@@ -1,6 +1,6 @@
 import 'dart:ffi';
-import 'package:cw_haven/api/structs/pending_transaction.dart';
-import 'package:cw_haven/api/structs/ut8_box.dart';
+import 'package:cw_xcash/api/structs/pending_transaction.dart';
+import 'package:cw_xcash/api/structs/ut8_box.dart';
 import 'package:ffi/ffi.dart';
 
 typedef CreateWallet = int Function(
@@ -24,9 +24,9 @@ typedef GetSeed = Pointer<Utf8> Function();
 
 typedef GetAddress = Pointer<Utf8> Function(int, int);
 
-typedef GetHavenFullBalance = Pointer<Int64> Function(int);
+typedef GetXCashFullBalance = Pointer<Int64> Function(int);
 
-typedef GetHavenUnlockedBalance = Pointer<Int64> Function(int);
+typedef GetXCashUnlockedBalance = Pointer<Int64> Function(int);
 
 typedef GetFullBalance = int Function(int);
 

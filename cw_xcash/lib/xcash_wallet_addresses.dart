@@ -1,20 +1,20 @@
 import 'package:cw_core/wallet_addresses_with_account.dart';
 import 'package:cw_core/wallet_info.dart';
 import 'package:cw_core/account.dart';
-import 'package:cw_haven/haven_account_list.dart';
-import 'package:cw_haven/haven_subaddress_list.dart';
+import 'package:cw_xcash/xcash_account_list.dart';
+import 'package:cw_xcash/xcash_subaddress_list.dart';
 import 'package:cw_core/subaddress.dart';
 import 'package:mobx/mobx.dart';
 
-part 'haven_wallet_addresses.g.dart';
+part 'xcash_wallet_addresses.g.dart';
 
-class HavenWalletAddresses = HavenWalletAddressesBase
-    with _$HavenWalletAddresses;
+class XCashWalletAddresses = XCashWalletAddressesBase
+    with _$XCashWalletAddresses;
 
-abstract class HavenWalletAddressesBase extends WalletAddressesWithAccount<Account> with Store {
-  HavenWalletAddressesBase(WalletInfo walletInfo)
-    : accountList = HavenAccountList(),
-      subaddressList = HavenSubaddressList(),
+abstract class XCashWalletAddressesBase extends WalletAddressesWithAccount<Account> with Store {
+  XCashWalletAddressesBase(WalletInfo walletInfo)
+    : accountList = XCashAccountList(),
+      subaddressList = XCashSubaddressList(),
       address = '',
       super(walletInfo);
 
@@ -29,9 +29,9 @@ abstract class HavenWalletAddressesBase extends WalletAddressesWithAccount<Accou
   @observable
   Subaddress? subaddress;
 
-  HavenSubaddressList subaddressList;
+  XCashSubaddressList subaddressList;
   
-  HavenAccountList accountList;
+  XCashAccountList accountList;
 
   @override
   Future<void> init() async {
@@ -44,7 +44,7 @@ abstract class HavenWalletAddressesBase extends WalletAddressesWithAccount<Accou
   @override
   Future<void> updateAddressesInBox() async {
     try {
-      final _subaddressList = HavenSubaddressList();
+      final _subaddressList = XCashSubaddressList();
 
       addressesMap.clear();
 

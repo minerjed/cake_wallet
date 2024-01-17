@@ -1,29 +1,29 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
-import 'package:cw_haven/api/signatures.dart';
-import 'package:cw_haven/api/types.dart';
-import 'package:cw_haven/api/haven_api.dart';
-import 'package:cw_haven/api/structs/account_row.dart';
+import 'package:cw_xcash/api/signatures.dart';
+import 'package:cw_xcash/api/types.dart';
+import 'package:cw_xcash/api/xcash_api.dart';
+import 'package:cw_xcash/api/structs/account_row.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cw_haven/api/wallet.dart';
+import 'package:cw_xcash/api/wallet.dart';
 
-final accountSizeNative = havenApi
+final accountSizeNative = xcashApi
     .lookup<NativeFunction<account_size>>('account_size')
     .asFunction<SubaddressSize>();
 
-final accountRefreshNative = havenApi
+final accountRefreshNative = xcashApi
     .lookup<NativeFunction<account_refresh>>('account_refresh')
     .asFunction<AccountRefresh>();
 
-final accountGetAllNative = havenApi
+final accountGetAllNative = xcashApi
     .lookup<NativeFunction<account_get_all>>('account_get_all')
     .asFunction<AccountGetAll>();
 
-final accountAddNewNative = havenApi
+final accountAddNewNative = xcashApi
     .lookup<NativeFunction<account_add_new>>('account_add_row')
     .asFunction<AccountAddNew>();
 
-final accountSetLabelNative = havenApi
+final accountSetLabelNative = xcashApi
     .lookup<NativeFunction<account_set_label>>('account_set_label_row')
     .asFunction<AccountSetLabel>();
 

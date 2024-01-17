@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-add_library( cw_haven
+add_library( cw_xcash
              SHARED
-             ../ios/Classes/haven_api.cpp)
+             ../ios/Classes/xcash_api.cpp)
 
              find_library( log-lib log )
 
@@ -69,113 +69,113 @@ set_target_properties(boost_wserialization PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/libboost_wserialization.a)
 
 #############
-# Haven
+# XCash
 #############
 
 add_library(wallet_api STATIC IMPORTED)
 set_target_properties(wallet_api PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libwallet_api.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libwallet_api.a)
 
 add_library(wallet STATIC IMPORTED)
 set_target_properties(wallet PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libwallet.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libwallet.a)
 
 add_library(cryptonote_core STATIC IMPORTED)
 set_target_properties(cryptonote_core PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libcryptonote_core.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libcryptonote_core.a)
 
 add_library(cryptonote_basic STATIC IMPORTED)
 set_target_properties(cryptonote_basic PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libcryptonote_basic.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libcryptonote_basic.a)
 
 add_library(mnemonics STATIC IMPORTED)
 set_target_properties(mnemonics PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libmnemonics.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libmnemonics.a)
 
 add_library(common STATIC IMPORTED)
 set_target_properties(common PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libcommon.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libcommon.a)
 
 add_library(cncrypto STATIC IMPORTED)
 set_target_properties(cncrypto PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libcncrypto.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libcncrypto.a)
 
 add_library(ringct STATIC IMPORTED)
 set_target_properties(ringct PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libringct.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libringct.a)
 
 add_library(ringct_basic STATIC IMPORTED)
 set_target_properties(ringct_basic PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libringct_basic.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libringct_basic.a)
 
 add_library(blockchain_db STATIC IMPORTED)
 set_target_properties(blockchain_db PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libblockchain_db.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libblockchain_db.a)
 
 add_library(lmdb STATIC IMPORTED)
 set_target_properties(lmdb PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/liblmdb.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/liblmdb.a)
 
 add_library(easylogging STATIC IMPORTED)
 set_target_properties(easylogging PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libeasylogging.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libeasylogging.a)
 
 add_library(unbound STATIC IMPORTED)
 set_target_properties(unbound PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libunbound.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libunbound.a)
 
 add_library(epee STATIC IMPORTED)
 set_target_properties(epee PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libepee.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libepee.a)
 
 add_library(checkpoints STATIC IMPORTED)
 set_target_properties(checkpoints PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libcheckpoints.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libcheckpoints.a)
 
 add_library(device STATIC IMPORTED)
 set_target_properties(device PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libdevice.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libdevice.a)
 
 add_library(device_trezor STATIC IMPORTED)
 set_target_properties(device_trezor PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libdevice_trezor.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libdevice_trezor.a)
 
 add_library(multisig STATIC IMPORTED)
 set_target_properties(multisig PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libmultisig.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libmultisig.a)
 
 add_library(version STATIC IMPORTED)
 set_target_properties(version PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libversion.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libversion.a)
 
 add_library(net STATIC IMPORTED)
 set_target_properties(net PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libnet.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libnet.a)
         
 add_library(hardforks STATIC IMPORTED)
 set_target_properties(hardforks PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libhardforks.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libhardforks.a)
 
 add_library(randomx STATIC IMPORTED)
 set_target_properties(randomx PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/librandomx.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/librandomx.a)
         
 add_library(offshore STATIC IMPORTED)
 set_target_properties(offshore PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/liboffshore.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/liboffshore.a)
 
 
 add_library(rpc_base STATIC IMPORTED)
 set_target_properties(rpc_base PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/librpc_base.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/librpc_base.a)
 
 add_library(wallet-crypto STATIC IMPORTED)
 set_target_properties(wallet-crypto PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/haven/libwallet-crypto.a)
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libwallet-crypto.a)
 
 include_directories( ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/include )
 
-target_link_libraries(  cw_haven
+target_link_libraries(  cw_xcash
                        
                         wallet_api
                         wallet

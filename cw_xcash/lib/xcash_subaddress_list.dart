@@ -1,16 +1,16 @@
-import 'package:cw_haven/api/structs/subaddress_row.dart';
+import 'package:cw_xcash/api/structs/subaddress_row.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
-import 'package:cw_haven/api/subaddress_list.dart' as subaddress_list;
+import 'package:cw_xcash/api/subaddress_list.dart' as subaddress_list;
 import 'package:cw_core/subaddress.dart';
 
-part 'haven_subaddress_list.g.dart';
+part 'xcash_subaddress_list.g.dart';
 
-class HavenSubaddressList = HavenSubaddressListBase
-    with _$HavenSubaddressList;
+class XCashSubaddressList = XCashSubaddressListBase
+    with _$XCashSubaddressList;
 
-abstract class HavenSubaddressListBase with Store {
-  HavenSubaddressListBase()
+abstract class XCashSubaddressListBase with Store {
+  XCashSubaddressListBase()
   : _isRefreshing = false,
     _isUpdating = false,
     subaddresses = ObservableList<Subaddress>();

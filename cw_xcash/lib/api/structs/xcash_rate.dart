@@ -1,12 +1,12 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 
-class HavenBalanceRow extends Struct {
+class XCashRate extends Struct {
   @Int64()
-  external int amount;
+  external int rate;
   
   external Pointer<Utf8> assetType;
 
-  int getAmount() => amount;
+  int getRate() => rate;
   String getAssetType() => assetType.toDartString();
 }

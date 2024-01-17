@@ -59,24 +59,24 @@ extern "C"
         }
     };
 
-    struct HavenBalance
+    struct XCashBalance
     {
         uint64_t amount;
         char *assetType;
 
-        HavenBalance(char *_assetType, uint64_t _amount)
+        XCashBalance(char *_assetType, uint64_t _amount)
         {
             amount = _amount;
             assetType = _assetType;
         }
     };
 
-    struct HavenRate
+    struct XCashRate
     {
         uint64_t rate;
         char *assetType;
 
-        HavenRate(char *_assetType, uint64_t _rate)
+        XCashRate(char *_assetType, uint64_t _rate)
         {
             rate = _rate;
             assetType = _assetType;
@@ -430,7 +430,7 @@ extern "C"
         for (auto const& balance : accountBalance)
         {
             char *assetType = strdup(balance.first.c_str());
-            HavenBalance *hb = new HavenBalance(assetType, balance.second);
+            XCashBalance *hb = new XCashBalance(assetType, balance.second);
             balanceAddresses[i] = reinterpret_cast<int64_t>(hb);
             i++;
         }
@@ -471,7 +471,7 @@ extern "C"
         for (auto const& balance : accountBalance)
         {
             char *assetType = strdup(balance.first.c_str());
-            HavenBalance *hb = new HavenBalance(assetType, balance.second);
+            XCashBalance *hb = new XCashBalance(assetType, balance.second);
             balanceAddresses[i] = reinterpret_cast<int64_t>(hb);
             i++;
         }
@@ -906,20 +906,19 @@ extern "C"
     }
 
     int64_t *get_rate()
-    {
         size_t size = rates.size();
-        int64_t *havenRates = (int64_t *)malloc(size * sizeof(int64_t));
+        int64_t *xcashRates = (int64_t *)malloc(size * sizeof(int64_t));
         int i = 0;
 
         for (auto const& rate : rates)
         {   
             char *assetType = strdup(rate.first.c_str());
-            HavenRate *havenRate = new HavenRate(assetType, rate.second);
-            havenRates[i] = reinterpret_cast<int64_t>(havenRate);
+            XCashRate *xcashRate = new XCashRate(assetType, rate.second);
+            xcashRates[i] = reinterpret_cast<int64_t>(xcashRate);
             i++;
         }
 
-        return havenRates;
+        return xcashRates;
     }
 
     int32_t size_of_rate()

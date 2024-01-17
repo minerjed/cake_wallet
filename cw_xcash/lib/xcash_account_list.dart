@@ -1,14 +1,14 @@
 import 'package:mobx/mobx.dart';
 import 'package:cw_core/account.dart';
 import 'package:cw_core/account_list.dart';
-import 'package:cw_haven/api/account_list.dart' as account_list;
+import 'package:cw_xcash/api/account_list.dart' as account_list;
 
-part 'haven_account_list.g.dart';
+part 'xcash_account_list.g.dart';
 
-class HavenAccountList = HavenAccountListBase with _$HavenAccountList;
+class XCashAccountList = XCashAccountListBase with _$XCashAccountList;
 
-abstract class HavenAccountListBase extends AccountList<Account> with Store {
-  HavenAccountListBase()
+abstract class XCashAccountListBase extends AccountList<Account> with Store {
+  XCashAccountListBase()
       : accounts = ObservableList<Account>(),
         _isRefreshing = false,
         _isUpdating = false {

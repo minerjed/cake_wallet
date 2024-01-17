@@ -1,29 +1,29 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cw_haven/api/signatures.dart';
-import 'package:cw_haven/api/types.dart';
-import 'package:cw_haven/api/haven_api.dart';
-import 'package:cw_haven/api/structs/subaddress_row.dart';
-import 'package:cw_haven/api/wallet.dart';
+import 'package:cw_xcash/api/signatures.dart';
+import 'package:cw_xcash/api/types.dart';
+import 'package:cw_xcash/api/xcash_api.dart';
+import 'package:cw_xcash/api/structs/subaddress_row.dart';
+import 'package:cw_xcash/api/wallet.dart';
 
-final subaddressSizeNative = havenApi
+final subaddressSizeNative = xcashApi
     .lookup<NativeFunction<subaddrress_size>>('subaddrress_size')
     .asFunction<SubaddressSize>();
 
-final subaddressRefreshNative = havenApi
+final subaddressRefreshNative = xcashApi
     .lookup<NativeFunction<subaddrress_refresh>>('subaddress_refresh')
     .asFunction<SubaddressRefresh>();
 
-final subaddrressGetAllNative = havenApi
+final subaddrressGetAllNative = xcashApi
     .lookup<NativeFunction<subaddress_get_all>>('subaddrress_get_all')
     .asFunction<SubaddressGetAll>();
 
-final subaddrressAddNewNative = havenApi
+final subaddrressAddNewNative = xcashApi
     .lookup<NativeFunction<subaddress_add_new>>('subaddress_add_row')
     .asFunction<SubaddressAddNew>();
 
-final subaddrressSetLabelNative = havenApi
+final subaddrressSetLabelNative = xcashApi
     .lookup<NativeFunction<subaddress_set_label>>('subaddress_set_label')
     .asFunction<SubaddressSetLabel>();
 

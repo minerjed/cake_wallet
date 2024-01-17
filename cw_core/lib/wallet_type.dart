@@ -14,6 +14,7 @@ const walletTypes = [
   WalletType.nano,
   WalletType.banano,
   WalletType.polygon,
+  WalletType.xcash
 ];
 
 @HiveType(typeId: WALLET_TYPE_TYPE_ID)
@@ -47,6 +48,10 @@ enum WalletType {
 
   @HiveField(9)
   polygon
+
+  @HiveField(10)
+  xcash
+
 }
 
 int serializeToInt(WalletType type) {
@@ -69,6 +74,8 @@ int serializeToInt(WalletType type) {
       return 7;
     case WalletType.polygon:
       return 8;
+    case WalletType.xcash:
+      return 9;
     default:
       return -1;
   }
@@ -94,6 +101,8 @@ WalletType deserializeFromInt(int raw) {
       return WalletType.bitcoinCash;
     case 8:
       return WalletType.polygon;
+    case 9:
+      return WalletType.xcash;
     default:
       throw Exception('Unexpected token: $raw for WalletType deserializeFromInt');
   }
@@ -119,6 +128,8 @@ String walletTypeToString(WalletType type) {
       return 'Banano';
     case WalletType.polygon:
       return 'Polygon';
+    case WalletType.xcash:
+      return 'XCash';
     default:
       return '';
   }
@@ -144,6 +155,8 @@ String walletTypeToDisplayName(WalletType type) {
       return 'Banano (BAN)';
     case WalletType.polygon:
       return 'Polygon (MATIC)';
+    case WalletType.xcash:
+      return 'XCash (XCASH)';
     default:
       return '';
   }
@@ -169,6 +182,8 @@ CryptoCurrency walletTypeToCryptoCurrency(WalletType type) {
       return CryptoCurrency.banano;
     case WalletType.polygon:
       return CryptoCurrency.maticpoly;
+    case WalletType.polygon:
+      return CryptoCurrency.xcash;
     default:
       throw Exception(
           'Unexpected wallet type: ${type.toString()} for CryptoCurrency walletTypeToCryptoCurrency');

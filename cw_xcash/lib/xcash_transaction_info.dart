@@ -1,17 +1,17 @@
 import 'package:cw_core/transaction_info.dart';
 import 'package:cw_core/monero_amount_format.dart';
-import 'package:cw_haven/api/structs/transaction_info_row.dart';
+import 'package:cw_xcash/api/structs/transaction_info_row.dart';
 import 'package:cw_core/parseBoolFromString.dart';
 import 'package:cw_core/transaction_direction.dart';
 import 'package:cw_core/format_amount.dart';
-import 'package:cw_haven/api/transaction_history.dart';
+import 'package:cw_xcash/api/transaction_history.dart';
 
-class HavenTransactionInfo extends TransactionInfo {
-  HavenTransactionInfo(this.id, this.height, this.direction, this.date,
+class XCashTransactionInfo extends TransactionInfo {
+  XCashTransactionInfo(this.id, this.height, this.direction, this.date,
       this.isPending, this.amount, this.accountIndex, this.addressIndex, this.fee,
       this.confirmations);
 
-  HavenTransactionInfo.fromMap(Map<String, Object> map)
+  XCashTransactionInfo.fromMap(Map<String, Object> map)
       : id = (map['hash'] ?? '') as String,
         height = (map['height'] ?? 0) as int,
         direction =
@@ -27,7 +27,7 @@ class HavenTransactionInfo extends TransactionInfo {
         key = getTxKey((map['hash'] ?? '') as String),
         fee = map['fee'] as int? ?? 0;
 
-    HavenTransactionInfo.fromRow(TransactionInfoRow row)
+    XCashTransactionInfo.fromRow(TransactionInfoRow row)
       : id = row.getHash(),
         height = row.blockHeight,
         direction = parseTransactionDirectionFromInt(row.direction) ??

@@ -301,7 +301,7 @@ class DutchMnemonics {
     "doenbaar",
     "doerak",
     "dogma",
-    "dokhaven",
+    "dokxcash",
     "dokwerker",
     "doling",
     "dolphijn",

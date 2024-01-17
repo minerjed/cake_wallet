@@ -3,25 +3,25 @@ import 'package:collection/collection.dart';
 import 'package:cw_core/wallet_base.dart';
 import 'package:cw_core/monero_wallet_utils.dart';
 import 'package:hive/hive.dart';
-import 'package:cw_haven/api/wallet_manager.dart' as haven_wallet_manager;
-import 'package:cw_haven/api/wallet.dart' as haven_wallet;
-import 'package:cw_haven/api/exceptions/wallet_opening_exception.dart';
-import 'package:cw_haven/haven_wallet.dart';
+import 'package:cw_xcash/api/wallet_manager.dart' as xcash_wallet_manager;
+import 'package:cw_xcash/api/wallet.dart' as xcash_wallet;
+import 'package:cw_xcash/api/exceptions/wallet_opening_exception.dart';
+import 'package:cw_xcash/xcash_wallet.dart';
 import 'package:cw_core/wallet_credentials.dart';
 import 'package:cw_core/wallet_service.dart';
 import 'package:cw_core/pathForWallet.dart';
 import 'package:cw_core/wallet_info.dart';
 import 'package:cw_core/wallet_type.dart';
 
-class HavenNewWalletCredentials extends WalletCredentials {
-  HavenNewWalletCredentials({required String name, required this.language, String? password})
+class XCashNewWalletCredentials extends WalletCredentials {
+  XCashNewWalletCredentials({required String name, required this.language, String? password})
       : super(name: name, password: password);
 
   final String language;
 }
 
-class HavenRestoreWalletFromSeedCredentials extends WalletCredentials {
-  HavenRestoreWalletFromSeedCredentials(
+class XCashRestoreWalletFromSeedCredentials extends WalletCredentials {
+  XCashRestoreWalletFromSeedCredentials(
       {required String name,
       required String password,
       required int height,
@@ -31,13 +31,13 @@ class HavenRestoreWalletFromSeedCredentials extends WalletCredentials {
   final String mnemonic;
 }
 
-class HavenWalletLoadingException implements Exception {
+class XCashWalletLoadingException implements Exception {
   @override
   String toString() => 'Failure to load the wallet.';
 }
 
-class HavenRestoreWalletFromKeysCredentials extends WalletCredentials {
-  HavenRestoreWalletFromKeysCredentials(
+class XCashRestoreWalletFromKeysCredentials extends WalletCredentials {
+  XCashRestoreWalletFromKeysCredentials(
       {required String name,
       required String password,
       required this.language,
@@ -53,11 +53,11 @@ class HavenRestoreWalletFromKeysCredentials extends WalletCredentials {
   final String spendKey;
 }
 
-class HavenWalletService extends WalletService<
-    HavenNewWalletCredentials,
-    HavenRestoreWalletFromSeedCredentials,
-    HavenRestoreWalletFromKeysCredentials> {
-  HavenWalletService(this.walletInfoSource);
+class XCashWalletService extends WalletService<
+    XCashNewWalletCredentials,
+    XCashRestoreWalletFromSeedCredentials,
+    XCashRestoreWalletFromKeysCredentials> {
+  XCashWalletService(this.walletInfoSource);
 
   final Box<WalletInfo> walletInfoSource;
   
@@ -65,22 +65,22 @@ class HavenWalletService extends WalletService<
       !File(path).existsSync() && !File('$path.keys').existsSync();
 
   @override
-  WalletType getType() => WalletType.haven;
+  WalletType getType() => WalletType.xcash;
 
   @override
-  Future<HavenWallet> create(HavenNewWalletCredentials credentials) async {
+  Future<XCashWallet> create(XCashNewWalletCredentials credentials) async {
     try {
       final path = await pathForWallet(name: credentials.name, type: getType());
-      await haven_wallet_manager.createWallet(
+      await xcash_wallet_manager.createWallet(
           path: path,
           password: credentials.password!,
           language: credentials.language);
-      final wallet = HavenWallet(walletInfo: credentials.walletInfo!);
+      final wallet = XCashWallet(walletInfo: credentials.walletInfo!);
       await wallet.init();
       return wallet;
     } catch (e) {
       // TODO: Implement Exception for wallet list service.
-      print('HavenWalletsManager Error: ${e.toString()}');
+      print('XCashWalletsManager Error: ${e.toString()}');
       rethrow;
     }
   }
@@ -89,16 +89,16 @@ class HavenWalletService extends WalletService<
   Future<bool> isWalletExit(String name) async {
     try {
       final path = await pathForWallet(name: name, type: getType());
-      return haven_wallet_manager.isWalletExist(path: path);
+      return xcash_wallet_manager.isWalletExist(path: path);
     } catch (e) {
       // TODO: Implement Exception for wallet list service.
-      print('HavenWalletsManager Error: $e');
+      print('XCashWalletsManager Error: $e');
       rethrow;
     }
   }
 
   @override
-  Future<HavenWallet> openWallet(String name, String password) async {
+  Future<XCashWallet> openWallet(String name, String password) async {
     try {
       final path = await pathForWallet(name: name, type: getType());
 
@@ -106,11 +106,11 @@ class HavenWalletService extends WalletService<
         await repairOldAndroidWallet(name);
       }
 
-      await haven_wallet_manager
+      await xcash_wallet_manager
           .openWalletAsync({'path': path, 'password': password});
       final walletInfo = walletInfoSource.values.firstWhereOrNull(
           (info) => info.id == WalletBase.idFor(name, getType()))!;
-      final wallet = HavenWallet(walletInfo: walletInfo);
+      final wallet = XCashWallet(walletInfo: walletInfo);
       final isValid = wallet.walletAddresses.validate();
 
       if (!isValid) {
@@ -160,7 +160,7 @@ class HavenWalletService extends WalletService<
       String currentName, String password, String newName) async {
     final currentWalletInfo = walletInfoSource.values.firstWhere(
         (info) => info.id == WalletBase.idFor(currentName, getType()));
-    final currentWallet = HavenWallet(walletInfo: currentWalletInfo);
+    final currentWallet = XCashWallet(walletInfo: currentWalletInfo);
 
     await currentWallet.renameWalletFiles(newName);
 
@@ -172,11 +172,11 @@ class HavenWalletService extends WalletService<
   }
 
   @override
-  Future<HavenWallet> restoreFromKeys(
-      HavenRestoreWalletFromKeysCredentials credentials) async {
+  Future<XCashWallet> restoreFromKeys(
+      XCashRestoreWalletFromKeysCredentials credentials) async {
     try {
       final path = await pathForWallet(name: credentials.name, type: getType());
-      await haven_wallet_manager.restoreFromKeys(
+      await xcash_wallet_manager.restoreFromKeys(
           path: path,
           password: credentials.password!,
           language: credentials.language,
@@ -184,34 +184,34 @@ class HavenWalletService extends WalletService<
           address: credentials.address,
           viewKey: credentials.viewKey,
           spendKey: credentials.spendKey);
-      final wallet = HavenWallet(walletInfo: credentials.walletInfo!);
+      final wallet = XCashWallet(walletInfo: credentials.walletInfo!);
       await wallet.init();
 
       return wallet;
     } catch (e) {
       // TODO: Implement Exception for wallet list service.
-      print('HavenWalletsManager Error: $e');
+      print('XCashWalletsManager Error: $e');
       rethrow;
     }
   }
 
   @override
-  Future<HavenWallet> restoreFromSeed(
-      HavenRestoreWalletFromSeedCredentials credentials) async {
+  Future<XCashWallet> restoreFromSeed(
+      XCashRestoreWalletFromSeedCredentials credentials) async {
     try {
       final path = await pathForWallet(name: credentials.name, type: getType());
-      await haven_wallet_manager.restoreFromSeed(
+      await xcash_wallet_manager.restoreFromSeed(
           path: path,
           password: credentials.password!,
           seed: credentials.mnemonic,
           restoreHeight: credentials.height!);
-      final wallet = HavenWallet(walletInfo: credentials.walletInfo!);
+      final wallet = XCashWallet(walletInfo: credentials.walletInfo!);
       await wallet.init();
 
       return wallet;
     } catch (e) {
       // TODO: Implement Exception for wallet list service.
-      print('HavenWalletsManager Error: $e');
+      print('XCashWalletsManager Error: $e');
       rethrow;
     }
   }

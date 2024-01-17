@@ -1,39 +1,39 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cw_haven/api/convert_utf8_to_string.dart';
-import 'package:cw_haven/api/signatures.dart';
-import 'package:cw_haven/api/types.dart';
-import 'package:cw_haven/api/haven_api.dart';
-import 'package:cw_haven/api/wallet.dart';
-import 'package:cw_haven/api/exceptions/wallet_opening_exception.dart';
-import 'package:cw_haven/api/exceptions/wallet_creation_exception.dart';
-import 'package:cw_haven/api/exceptions/wallet_restore_from_keys_exception.dart';
-import 'package:cw_haven/api/exceptions/wallet_restore_from_seed_exception.dart';
+import 'package:cw_xcash/api/convert_utf8_to_string.dart';
+import 'package:cw_xcash/api/signatures.dart';
+import 'package:cw_xcash/api/types.dart';
+import 'package:cw_xcash/api/xcash_api.dart';
+import 'package:cw_xcash/api/wallet.dart';
+import 'package:cw_xcash/api/exceptions/wallet_opening_exception.dart';
+import 'package:cw_xcash/api/exceptions/wallet_creation_exception.dart';
+import 'package:cw_xcash/api/exceptions/wallet_restore_from_keys_exception.dart';
+import 'package:cw_xcash/api/exceptions/wallet_restore_from_seed_exception.dart';
 
-final createWalletNative = havenApi
+final createWalletNative = xcashApi
     .lookup<NativeFunction<create_wallet>>('create_wallet')
     .asFunction<CreateWallet>();
 
-final restoreWalletFromSeedNative = havenApi
+final restoreWalletFromSeedNative = xcashApi
     .lookup<NativeFunction<restore_wallet_from_seed>>(
         'restore_wallet_from_seed')
     .asFunction<RestoreWalletFromSeed>();
 
-final restoreWalletFromKeysNative = havenApi
+final restoreWalletFromKeysNative = xcashApi
     .lookup<NativeFunction<restore_wallet_from_keys>>(
         'restore_wallet_from_keys')
     .asFunction<RestoreWalletFromKeys>();
 
-final isWalletExistNative = havenApi
+final isWalletExistNative = xcashApi
     .lookup<NativeFunction<is_wallet_exist>>('is_wallet_exist')
     .asFunction<IsWalletExist>();
 
-final loadWalletNative = havenApi
+final loadWalletNative = xcashApi
     .lookup<NativeFunction<load_wallet>>('load_wallet')
     .asFunction<LoadWallet>();
 
-final errorStringNative = havenApi
+final errorStringNative = xcashApi
     .lookup<NativeFunction<error_string>>('error_string')
     .asFunction<ErrorString>();
 

@@ -1,10 +1,10 @@
 import Flutter
 import UIKit
 
-public class SwiftCwHavenPlugin: NSObject, FlutterPlugin {
+public class SwiftCwXCashPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "cw_haven", binaryMessenger: registrar.messenger())
-    let instance = SwiftCwHavenPlugin()
+    let channel = FlutterMethodChannel(name: "cw_xcash", binaryMessenger: registrar.messenger())
+    let instance = SwiftCwXCashPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 

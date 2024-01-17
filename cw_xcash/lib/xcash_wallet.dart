@@ -3,24 +3,24 @@ import 'dart:io';
 import 'package:cw_core/crypto_currency.dart';
 import 'package:cw_core/pathForWallet.dart';
 import 'package:cw_core/transaction_priority.dart';
-import 'package:cw_haven/haven_transaction_creation_credentials.dart';
+import 'package:cw_xcash/xcash_transaction_creation_credentials.dart';
 import 'package:cw_core/monero_amount_format.dart';
-import 'package:cw_haven/haven_transaction_creation_exception.dart';
-import 'package:cw_haven/haven_transaction_info.dart';
-import 'package:cw_haven/haven_wallet_addresses.dart';
+import 'package:cw_xcash/xcash_transaction_creation_exception.dart';
+import 'package:cw_xcash/xcash_transaction_info.dart';
+import 'package:cw_xcash/xcash_wallet_addresses.dart';
 import 'package:cw_core/monero_wallet_utils.dart';
-import 'package:cw_haven/api/structs/pending_transaction.dart';
+import 'package:cw_xcash/api/structs/pending_transaction.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
-import 'package:cw_haven/api/transaction_history.dart' as haven_transaction_history;
-//import 'package:cw_haven/wallet.dart';
-import 'package:cw_haven/api/wallet.dart' as haven_wallet;
-import 'package:cw_haven/api/transaction_history.dart' as transaction_history;
-import 'package:cw_haven/api/monero_output.dart';
-import 'package:cw_haven/pending_haven_transaction.dart';
+import 'package:cw_xcash/api/transaction_history.dart' as xcash_transaction_history;
+//import 'package:cw_xcash/wallet.dart';
+import 'package:cw_xcash/api/wallet.dart' as xcash_wallet;
+import 'package:cw_xcash/api/transaction_history.dart' as transaction_history;
+import 'package:cw_xcash/api/monero_output.dart';
+import 'package:cw_xcash/pending_xcash_transaction.dart';
 import 'package:cw_core/monero_wallet_keys.dart';
 import 'package:cw_core/monero_balance.dart';
-import 'package:cw_haven/haven_transaction_history.dart';
+import 'package:cw_xcash/xcash_transaction_history.dart';
 import 'package:cw_core/account.dart';
 import 'package:cw_core/pending_transaction.dart';
 import 'package:cw_core/wallet_base.dart';
@@ -28,29 +28,29 @@ import 'package:cw_core/sync_status.dart';
 import 'package:cw_core/wallet_info.dart';
 import 'package:cw_core/node.dart';
 import 'package:cw_core/monero_transaction_priority.dart';
-import 'package:cw_haven/haven_balance.dart';
+import 'package:cw_xcash/xcash_balance.dart';
 
-part 'haven_wallet.g.dart';
+part 'xcash_wallet.g.dart';
 
 const moneroBlockSize = 1000;
 
-class HavenWallet = HavenWalletBase with _$HavenWallet;
+class XCashWallet = XCashWalletBase with _$XCashWallet;
 
-abstract class HavenWalletBase
-    extends WalletBase<MoneroBalance, HavenTransactionHistory, HavenTransactionInfo> with Store {
-  HavenWalletBase({required WalletInfo walletInfo})
-      : balance = ObservableMap.of(getHavenBalance(accountIndex: 0)),
+abstract class XCashWalletBase
+    extends WalletBase<MoneroBalance, XCashTransactionHistory, XCashTransactionInfo> with Store {
+  XCashWalletBase({required WalletInfo walletInfo})
+      : balance = ObservableMap.of(getXCashBalance(accountIndex: 0)),
         _isTransactionUpdating = false,
         _hasSyncAfterStartup = false,
-        walletAddresses = HavenWalletAddresses(walletInfo),
+        walletAddresses = XCashWalletAddresses(walletInfo),
         syncStatus = NotConnectedSyncStatus(),
         super(walletInfo) {
-    transactionHistory = HavenTransactionHistory();
+    transactionHistory = XCashTransactionHistory();
     _onAccountChangeReaction = reaction((_) => walletAddresses.account, (Account? account) {
       if (account == null) {
         return;
       }
-      balance.addAll(getHavenBalance(accountIndex: account.id));
+      balance.addAll(getXCashBalance(accountIndex: account.id));
       walletAddresses.updateSubaddressList(accountIndex: account.id);
     });
   }
@@ -58,7 +58,7 @@ abstract class HavenWalletBase
   static const int _autoSaveInterval = 30;
 
   @override
-  HavenWalletAddresses walletAddresses;
+  XCashWalletAddresses walletAddresses;
 
   @override
   @observable
@@ -69,16 +69,16 @@ abstract class HavenWalletBase
   ObservableMap<CryptoCurrency, MoneroBalance> balance;
 
   @override
-  String get seed => haven_wallet.getSeed();
+  String get seed => xcash_wallet.getSeed();
 
   @override
   MoneroWalletKeys get keys => MoneroWalletKeys(
-      privateSpendKey: haven_wallet.getSecretSpendKey(),
-      privateViewKey: haven_wallet.getSecretViewKey(),
-      publicSpendKey: haven_wallet.getPublicSpendKey(),
-      publicViewKey: haven_wallet.getPublicViewKey());
+      privateSpendKey: xcash_wallet.getSecretSpendKey(),
+      privateViewKey: xcash_wallet.getSecretViewKey(),
+      publicSpendKey: xcash_wallet.getPublicSpendKey(),
+      publicViewKey: xcash_wallet.getPublicViewKey());
 
-  haven_wallet.SyncListener? _listener;
+  xcash_wallet.SyncListener? _listener;
   ReactionDisposer? _onAccountChangeReaction;
   bool _isTransactionUpdating;
   bool _hasSyncAfterStartup;
@@ -86,15 +86,15 @@ abstract class HavenWalletBase
 
   Future<void> init() async {
     await walletAddresses.init();
-    balance.addAll(getHavenBalance(accountIndex: walletAddresses.account?.id ?? 0));
+    balance.addAll(getXCashBalance(accountIndex: walletAddresses.account?.id ?? 0));
     _setListeners();
     await updateTransactions();
 
     if (walletInfo.isRecovery) {
-      haven_wallet.setRecoveringFromSeed(isRecovery: walletInfo.isRecovery);
+      xcash_wallet.setRecoveringFromSeed(isRecovery: walletInfo.isRecovery);
 
-      if (haven_wallet.getCurrentHeight() <= 1) {
-        haven_wallet.setRefreshFromBlockHeight(height: walletInfo.restoreHeight);
+      if (xcash_wallet.getCurrentHeight() <= 1) {
+        xcash_wallet.setRefreshFromBlockHeight(height: walletInfo.restoreHeight);
       }
     }
 
@@ -116,7 +116,7 @@ abstract class HavenWalletBase
   Future<void> connectToNode({required Node node}) async {
     try {
       syncStatus = ConnectingSyncStatus();
-      await haven_wallet.setupNode(
+      await xcash_wallet.setupNode(
           address: node.uriRaw,
           login: node.login,
           password: node.password,
@@ -124,7 +124,7 @@ abstract class HavenWalletBase
           isLightWallet: false, // FIXME: hardcoded value
           socksProxyAddress: node.socksProxyAddress);
 
-      haven_wallet.setTrustedDaemon(node.trusted);
+      xcash_wallet.setTrustedDaemon(node.trusted);
       syncStatus = ConnectedSyncStatus();
     } catch (e) {
       syncStatus = FailedSyncStatus();
@@ -140,7 +140,7 @@ abstract class HavenWalletBase
 
     try {
       syncStatus = AttemptingSyncStatus();
-      haven_wallet.startRefresh();
+      xcash_wallet.startRefresh();
       _setListeners();
       _listener?.start();
     } catch (e) {
@@ -152,22 +152,22 @@ abstract class HavenWalletBase
 
   @override
   Future<PendingTransaction> createTransaction(Object credentials) async {
-    final _credentials = credentials as HavenTransactionCreationCredentials;
+    final _credentials = credentials as XCashTransactionCreationCredentials;
     final outputs = _credentials.outputs;
     final hasMultiDestination = outputs.length > 1;
     final assetType = CryptoCurrency.fromString(_credentials.assetType.toLowerCase());
-    final balances = getHavenBalance(accountIndex: walletAddresses.account!.id);
+    final balances = getXCashBalance(accountIndex: walletAddresses.account!.id);
     final unlockedBalance = balances[assetType]!.unlockedBalance;
 
     PendingTransactionDescription pendingTransactionDescription;
 
     if (!(syncStatus is SyncedSyncStatus)) {
-      throw HavenTransactionCreationException('The wallet is not synced.');
+      throw XCashTransactionCreationException('The wallet is not synced.');
     }
 
     if (hasMultiDestination) {
       if (outputs.any((item) => item.sendAll || (item.formattedCryptoAmount ?? 0) <= 0)) {
-        throw HavenTransactionCreationException(
+        throw XCashTransactionCreationException(
             'You do not have enough coins to send this amount.');
       }
 
@@ -175,7 +175,7 @@ abstract class HavenWalletBase
           outputs.fold(0, (acc, value) => acc + (value.formattedCryptoAmount ?? 0));
 
       if (unlockedBalance < totalAmount) {
-        throw HavenTransactionCreationException(
+        throw XCashTransactionCreationException(
             'You do not have enough coins to send this amount.');
       }
 
@@ -200,7 +200,7 @@ abstract class HavenWalletBase
           (formattedAmount == null && unlockedBalance <= 0)) {
         final formattedBalance = moneroAmountToString(amount: unlockedBalance);
 
-        throw HavenTransactionCreationException(
+        throw XCashTransactionCreationException(
             'You do not have enough unlocked balance. Unlocked: $formattedBalance. Transaction amount: ${output.cryptoAmount}.');
       }
 
@@ -212,7 +212,7 @@ abstract class HavenWalletBase
           accountIndex: walletAddresses.account!.id);
     }
 
-    return PendingHavenTransaction(pendingTransactionDescription, assetType);
+    return PendingXCashTransaction(pendingTransactionDescription, assetType);
   }
 
   @override
@@ -241,7 +241,7 @@ abstract class HavenWalletBase
   Future<void> save() async {
     await walletAddresses.updateAddressesInBox();
     await backupWalletFiles(name);
-    await haven_wallet.store();
+    await xcash_wallet.store();
   }
 
   @override
@@ -270,12 +270,12 @@ abstract class HavenWalletBase
 
   @override
   Future<void> changePassword(String password) async {
-    haven_wallet.setPasswordSync(password);
+    xcash_wallet.setPasswordSync(password);
   }
 
-  Future<int> getNodeHeight() async => haven_wallet.getNodeHeight();
+  Future<int> getNodeHeight() async => xcash_wallet.getNodeHeight();
 
-  Future<bool> isConnected() async => haven_wallet.isConnected();
+  Future<bool> isConnected() async => xcash_wallet.isConnected();
 
   Future<void> setAsRecovered() async {
     walletInfo.isRecovery = false;
@@ -286,8 +286,8 @@ abstract class HavenWalletBase
   Future<void> rescan({required int height}) async {
     walletInfo.restoreHeight = height;
     walletInfo.isRecovery = true;
-    haven_wallet.setRefreshFromBlockHeight(height: height);
-    haven_wallet.rescanBlockchainAsync();
+    xcash_wallet.setRefreshFromBlockHeight(height: height);
+    xcash_wallet.rescanBlockchainAsync();
     await startSync();
     _askForUpdateBalance();
     walletAddresses.accountList.update();
@@ -297,14 +297,14 @@ abstract class HavenWalletBase
   }
 
   String getTransactionAddress(int accountIndex, int addressIndex) =>
-      haven_wallet.getAddress(accountIndex: accountIndex, addressIndex: addressIndex);
+      xcash_wallet.getAddress(accountIndex: accountIndex, addressIndex: addressIndex);
 
   @override
-  Future<Map<String, HavenTransactionInfo>> fetchTransactions() async {
-    haven_transaction_history.refreshTransactions();
+  Future<Map<String, XCashTransactionInfo>> fetchTransactions() async {
+    xcash_transaction_history.refreshTransactions();
     return _getAllTransactions(null)
-        .fold<Map<String, HavenTransactionInfo>>(<String, HavenTransactionInfo>{},
-            (Map<String, HavenTransactionInfo> acc, HavenTransactionInfo tx) {
+        .fold<Map<String, XCashTransactionInfo>>(<String, XCashTransactionInfo>{},
+            (Map<String, XCashTransactionInfo> acc, XCashTransactionInfo tx) {
       acc[tx.id] = tx;
       return acc;
     });
@@ -327,14 +327,14 @@ abstract class HavenWalletBase
     }
   }
 
-  List<HavenTransactionInfo> _getAllTransactions(dynamic _) => haven_transaction_history
+  List<XCashTransactionInfo> _getAllTransactions(dynamic _) => xcash_transaction_history
       .getAllTransations()
-      .map((row) => HavenTransactionInfo.fromRow(row))
+      .map((row) => XCashTransactionInfo.fromRow(row))
       .toList();
 
   void _setListeners() {
     _listener?.stop();
-    _listener = haven_wallet.setListeners(_onNewBlock, _onNewTransaction);
+    _listener = xcash_wallet.setListeners(_onNewBlock, _onNewTransaction);
   }
 
   void _setInitialHeight() {
@@ -342,12 +342,12 @@ abstract class HavenWalletBase
       return;
     }
 
-    final currentHeight = haven_wallet.getCurrentHeight();
+    final currentHeight = xcash_wallet.getCurrentHeight();
 
     if (currentHeight <= 1) {
       final height = _getHeightByDate(walletInfo.date);
-      haven_wallet.setRecoveringFromSeed(isRecovery: true);
-      haven_wallet.setRefreshFromBlockHeight(height: height);
+      xcash_wallet.setRecoveringFromSeed(isRecovery: true);
+      xcash_wallet.setRefreshFromBlockHeight(height: height);
     }
   }
 
@@ -360,7 +360,7 @@ abstract class HavenWalletBase
   }
 
   int _getHeightByDate(DateTime date) {
-    final nodeHeight = haven_wallet.getNodeHeightSync();
+    final nodeHeight = xcash_wallet.getNodeHeightSync();
     final heightDistance = _getHeightDistance(date);
 
     if (nodeHeight <= 0) {
@@ -371,7 +371,7 @@ abstract class HavenWalletBase
   }
 
   void _askForUpdateBalance() =>
-      balance.addAll(getHavenBalance(accountIndex: walletAddresses.account!.id));
+      balance.addAll(getXCashBalance(accountIndex: walletAddresses.account!.id));
 
   Future<void> _askForUpdateTransactionHistory() async => await updateTransactions();
 

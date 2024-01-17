@@ -1,4 +1,4 @@
-name: cw_haven
+name: cw_xcash
 description: A new flutter plugin project.
 version: 0.0.1
 publish_to: none
@@ -41,10 +41,10 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.cakewallet.cw_haven
-        pluginClass: CwHavenPlugin
+        package: com.cakewallet.cw_xcash
+        pluginClass: CwXCashPlugin
       ios:
-        pluginClass: CwHavenPlugin
+        pluginClass: CwXCashPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

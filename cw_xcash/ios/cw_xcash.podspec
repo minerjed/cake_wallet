@@ -1,12 +1,12 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint cw_haven.podspec` to validate before publishing.
+# Run `pod lib lint cw_xcash.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'cw_haven'
+  s.name             = 'cw_xcash'
   s.version          = '0.0.1'
-  s.summary          = 'Cake Wallet Haven'
-  s.description      = 'Cake Wallet wrapper over Haven project'
+  s.summary          = 'Cake Wallet XCash'
+  s.description      = 'Cake Wallet wrapper over XCash project'
   s.homepage         = 'http://cakewallet.com'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Cake Wallet' => 'support@cakewallet.com' }
@@ -41,10 +41,10 @@ Pod::Spec.new do |s|
     boost.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/#{s.name}/External/ios/include/**" }
   end
 
-  s.subspec 'Haven' do |haven|
-    haven.preserve_paths = 'External/ios/include/**/*.h'
-    haven.vendored_libraries = 'External/ios/lib/libhaven.a'
-    haven.libraries = 'haven'
-    haven.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/#{s.name}/External/ios/include" }
+  s.subspec 'XCash' do |xcash|
+    xcash.preserve_paths = 'External/ios/include/**/*.h'
+    xcash.vendored_libraries = 'External/ios/lib/libxcash.a'
+    xcash.libraries = 'xcash'
+    xcash.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/#{s.name}/External/ios/include" }
   end
 end

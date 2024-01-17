@@ -1,126 +1,126 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
-import 'package:cw_haven/api/structs/ut8_box.dart';
-import 'package:cw_haven/api/convert_utf8_to_string.dart';
-import 'package:cw_haven/api/signatures.dart';
-import 'package:cw_haven/api/types.dart';
-import 'package:cw_haven/api/haven_api.dart';
-import 'package:cw_haven/api/exceptions/setup_wallet_exception.dart';
+import 'package:cw_xcash/api/structs/ut8_box.dart';
+import 'package:cw_xcash/api/convert_utf8_to_string.dart';
+import 'package:cw_xcash/api/signatures.dart';
+import 'package:cw_xcash/api/types.dart';
+import 'package:cw_xcash/api/xcash_api.dart';
+import 'package:cw_xcash/api/exceptions/setup_wallet_exception.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 int _boolToInt(bool value) => value ? 1 : 0;
 
-final getFileNameNative = havenApi
+final getFileNameNative = xcashApi
     .lookup<NativeFunction<get_filename>>('get_filename')
     .asFunction<GetFilename>();
 
 final getSeedNative =
-    havenApi.lookup<NativeFunction<get_seed>>('seed').asFunction<GetSeed>();
+    xcashApi.lookup<NativeFunction<get_seed>>('seed').asFunction<GetSeed>();
 
-final getAddressNative = havenApi
+final getAddressNative = xcashApi
     .lookup<NativeFunction<get_address>>('get_address')
     .asFunction<GetAddress>();
 
-final getFullBalanceNative = havenApi
+final getFullBalanceNative = xcashApi
     .lookup<NativeFunction<get_full_balanace>>('get_full_balance')
     .asFunction<GetFullBalance>();
 
-final getUnlockedBalanceNative = havenApi
+final getUnlockedBalanceNative = xcashApi
     .lookup<NativeFunction<get_unlocked_balanace>>('get_unlocked_balance')
     .asFunction<GetUnlockedBalance>();
 
-final getCurrentHeightNative = havenApi
+final getCurrentHeightNative = xcashApi
     .lookup<NativeFunction<get_current_height>>('get_current_height')
     .asFunction<GetCurrentHeight>();
 
-final getNodeHeightNative = havenApi
+final getNodeHeightNative = xcashApi
     .lookup<NativeFunction<get_node_height>>('get_node_height')
     .asFunction<GetNodeHeight>();
 
-final isConnectedNative = havenApi
+final isConnectedNative = xcashApi
     .lookup<NativeFunction<is_connected>>('is_connected')
     .asFunction<IsConnected>();
 
-final setupNodeNative = havenApi
+final setupNodeNative = xcashApi
     .lookup<NativeFunction<setup_node>>('setup_node')
     .asFunction<SetupNode>();
 
-final startRefreshNative = havenApi
+final startRefreshNative = xcashApi
     .lookup<NativeFunction<start_refresh>>('start_refresh')
     .asFunction<StartRefresh>();
 
-final connecToNodeNative = havenApi
+final connecToNodeNative = xcashApi
     .lookup<NativeFunction<connect_to_node>>('connect_to_node')
     .asFunction<ConnectToNode>();
 
-final setRefreshFromBlockHeightNative = havenApi
+final setRefreshFromBlockHeightNative = xcashApi
     .lookup<NativeFunction<set_refresh_from_block_height>>(
         'set_refresh_from_block_height')
     .asFunction<SetRefreshFromBlockHeight>();
 
-final setRecoveringFromSeedNative = havenApi
+final setRecoveringFromSeedNative = xcashApi
     .lookup<NativeFunction<set_recovering_from_seed>>(
         'set_recovering_from_seed')
     .asFunction<SetRecoveringFromSeed>();
 
 final storeNative =
-    havenApi.lookup<NativeFunction<store_c>>('store').asFunction<Store>();
+    xcashApi.lookup<NativeFunction<store_c>>('store').asFunction<Store>();
 
 final setPasswordNative =
-    havenApi.lookup<NativeFunction<set_password>>('set_password').asFunction<SetPassword>();
+    xcashApi.lookup<NativeFunction<set_password>>('set_password').asFunction<SetPassword>();
 
-final setListenerNative = havenApi
+final setListenerNative = xcashApi
     .lookup<NativeFunction<set_listener>>('set_listener')
     .asFunction<SetListener>();
 
-final getSyncingHeightNative = havenApi
+final getSyncingHeightNative = xcashApi
     .lookup<NativeFunction<get_syncing_height>>('get_syncing_height')
     .asFunction<GetSyncingHeight>();
 
-final isNeededToRefreshNative = havenApi
+final isNeededToRefreshNative = xcashApi
     .lookup<NativeFunction<is_needed_to_refresh>>('is_needed_to_refresh')
     .asFunction<IsNeededToRefresh>();
 
-final isNewTransactionExistNative = havenApi
+final isNewTransactionExistNative = xcashApi
     .lookup<NativeFunction<is_new_transaction_exist>>(
         'is_new_transaction_exist')
     .asFunction<IsNewTransactionExist>();
 
-final getSecretViewKeyNative = havenApi
+final getSecretViewKeyNative = xcashApi
     .lookup<NativeFunction<secret_view_key>>('secret_view_key')
     .asFunction<SecretViewKey>();
 
-final getPublicViewKeyNative = havenApi
+final getPublicViewKeyNative = xcashApi
     .lookup<NativeFunction<public_view_key>>('public_view_key')
     .asFunction<PublicViewKey>();
 
-final getSecretSpendKeyNative = havenApi
+final getSecretSpendKeyNative = xcashApi
     .lookup<NativeFunction<secret_spend_key>>('secret_spend_key')
     .asFunction<SecretSpendKey>();
 
-final getPublicSpendKeyNative = havenApi
+final getPublicSpendKeyNative = xcashApi
     .lookup<NativeFunction<secret_view_key>>('public_spend_key')
     .asFunction<PublicSpendKey>();
 
-final closeCurrentWalletNative = havenApi
+final closeCurrentWalletNative = xcashApi
     .lookup<NativeFunction<close_current_wallet>>('close_current_wallet')
     .asFunction<CloseCurrentWallet>();
 
-final onStartupNative = havenApi
+final onStartupNative = xcashApi
     .lookup<NativeFunction<on_startup>>('on_startup')
     .asFunction<OnStartup>();
 
-final rescanBlockchainAsyncNative = havenApi
+final rescanBlockchainAsyncNative = xcashApi
     .lookup<NativeFunction<rescan_blockchain>>('rescan_blockchain')
     .asFunction<RescanBlockchainAsync>();
 
-final setTrustedDaemonNative = havenApi
+final setTrustedDaemonNative = xcashApi
     .lookup<NativeFunction<set_trusted_daemon>>('set_trusted_daemon')
     .asFunction<SetTrustedDaemon>();
 
-final trustedDaemonNative = havenApi
+final trustedDaemonNative = xcashApi
     .lookup<NativeFunction<trusted_daemon>>('trusted_daemon')
     .asFunction<TrustedDaemon>();
 

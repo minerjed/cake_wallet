@@ -1,7 +1,7 @@
 import 'package:cw_core/crypto_currency.dart';
 import 'package:cw_core/monero_balance.dart';
-import 'package:cw_haven/api/balance_list.dart';
-import 'package:cw_haven/api/structs/haven_balance_row.dart';
+import 'package:cw_xcash/api/balance_list.dart';
+import 'package:cw_xcash/api/structs/xcash_balance_row.dart';
 
 const inactiveBalances = [
   CryptoCurrency.xcad,
@@ -9,10 +9,10 @@ const inactiveBalances = [
   CryptoCurrency.xnok,
   CryptoCurrency.xnzd]; 
 
-Map<CryptoCurrency, MoneroBalance> getHavenBalance({required int accountIndex}) {
-  final fullBalances = getHavenFullBalance(accountIndex: accountIndex);
-  final unlockedBalances = getHavenUnlockedBalance(accountIndex: accountIndex);
-  final havenBalances = <CryptoCurrency, MoneroBalance>{};
+Map<CryptoCurrency, MoneroBalance> getXCashBalance({required int accountIndex}) {
+  final fullBalances = getXCashFullBalance(accountIndex: accountIndex);
+  final unlockedBalances = getXCashUnlockedBalance(accountIndex: accountIndex);
+  final xcashBalances = <CryptoCurrency, MoneroBalance>{};
   final balancesLength = fullBalances.length;
   
   for (int i = 0; i < balancesLength; i++) {
@@ -27,8 +27,8 @@ Map<CryptoCurrency, MoneroBalance> getHavenBalance({required int accountIndex}) 
       continue;
     }
 
-    havenBalances[currency] = moneroBalance;
+    xcashBalances[currency] = moneroBalance;
   }
 
-  return havenBalances;
+  return xcashBalances;
 }

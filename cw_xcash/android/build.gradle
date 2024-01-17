@@ -1,4 +1,4 @@
-group 'com.cakewallet.cw_haven'
+group 'com.cakewallet.cw_xcash'
 version '1.0-SNAPSHOT'
 
 buildscript {

@@ -1,15 +1,15 @@
 import 'dart:ffi';
-import 'package:cw_haven/api/convert_utf8_to_string.dart';
-import 'package:cw_haven/api/signatures.dart';
-import 'package:cw_haven/api/types.dart';
-import 'package:cw_haven/api/haven_api.dart';
+import 'package:cw_xcash/api/convert_utf8_to_string.dart';
+import 'package:cw_xcash/api/signatures.dart';
+import 'package:cw_xcash/api/types.dart';
+import 'package:cw_xcash/api/xcash_api.dart';
 import 'package:ffi/ffi.dart';
 
-final assetTypesSizeNative = havenApi
+final assetTypesSizeNative = xcashApi
     .lookup<NativeFunction<account_size>>('asset_types_size')
     .asFunction<SubaddressSize>();
 
-final getAssetTypesNative = havenApi
+final getAssetTypesNative = xcashApi
     .lookup<NativeFunction<asset_types>>('asset_types')
     .asFunction<AssetTypes>();
 

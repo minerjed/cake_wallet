@@ -1,6 +1,6 @@
 import 'dart:ffi';
-import 'package:cw_haven/api/structs/pending_transaction.dart';
-import 'package:cw_haven/api/structs/ut8_box.dart';
+import 'package:cw_xcash/api/structs/pending_transaction.dart';
+import 'package:cw_xcash/api/structs/ut8_box.dart';
 import 'package:ffi/ffi.dart';
 
 typedef create_wallet = Int8 Function(
