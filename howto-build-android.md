@@ -89,11 +89,11 @@ $ cd /opt/android
 
 ..and download the source code into that directory.
 
-`$ git clone https://github.com/cake-tech/cake_wallet.git --branch main`
+`$ git clone https://github.com/minerjed/xcash_cakewallet.git`
 
 Proceed into the source code before proceeding with the next steps:
 
-`$ cd cake_wallet/scripts/android/`
+`$ cd xcash_cakewallet/scripts/android/`
 
 ### 7. Installing Android NDK
 
