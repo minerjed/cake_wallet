@@ -273,7 +273,7 @@ abstract class DashboardViewModelBase with Store {
   @observable
   WalletBase<Balance, TransactionHistoryBase<TransactionInfo>, TransactionInfo> wallet;
 
-  bool get hasRescan => wallet.type == WalletType.monero || wallet.type == WalletType.haven;
+  bool get hasRescan => wallet.type == WalletType.monero || wallet.type == WalletType.haven || wallet.type == WalletType.xcash;
 
   final KeyService keyService;
 
@@ -452,6 +452,9 @@ abstract class DashboardViewModelBase with Store {
     hasExchangeAction = !isHaven;
     hasBuyAction = !isHaven;
     hasSellAction = !isHaven;
+    hasExchangeAction = !isXCash;
+    hasBuyAction = !isXCash;
+    hasSellAction = !isXCash;
   }
 
   @computed

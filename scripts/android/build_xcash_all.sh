@@ -6,4 +6,4 @@
 ./build_sodium.sh
 ./build_unbound.sh
 ./build_zmq.sh
-#./build_xcash.sh
+./build_xcash.sh

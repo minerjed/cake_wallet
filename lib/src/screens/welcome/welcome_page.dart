@@ -24,6 +24,10 @@ class WelcomePage extends BasePage {
       return S.of(context).haven_app;
     }
 
+    if (isXCash) {
+      return S.of(context).xcash_app;
+    }
+
     return S.of(context).cake_wallet;
   }
 
@@ -34,6 +38,10 @@ class WelcomePage extends BasePage {
 
     if (isHaven) {
       return S.of(context).haven_app_wallet_text;
+    }
+
+    if (isXCash) {
+      return S.of(context).xcash_app_wallet_text;
     }
 
     return S.of(context).new_first_wallet_text;
