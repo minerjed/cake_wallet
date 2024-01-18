@@ -114,6 +114,22 @@ class CryptoCurrency extends EnumerableItem<int> with Serializable<int> implemen
     xusd,
   ];
 
+    static const xcashCurrencies = [
+    xxag,
+    xxau,
+    xxaud,
+    xxbtc,
+    xxcad,
+    xxchf,
+    xxcny,
+    xxeur,
+    xxgbp,
+    xxjpy,
+    xxnok,
+    xxnzd,
+    xxusd,
+  ];
+
   // title, tag (if applicable), fullName (if unique), raw, name, iconPath
   static const xmr = CryptoCurrency(title: 'XMR', fullName: 'Monero', raw: 0, name: 'xmr', iconPath: 'assets/images/monero_icon.png', decimals: 12);
   static const ada = CryptoCurrency(title: 'ADA', fullName: 'Cardano', raw: 1, name: 'ada', iconPath: 'assets/images/ada_icon.png', decimals: 6);
@@ -208,21 +224,21 @@ class CryptoCurrency extends EnumerableItem<int> with Serializable<int> implemen
   static const usdtPoly = CryptoCurrency(title: 'USDT', tag: 'POLY', fullName: 'Tether USD (PoS)', raw: 87, name: 'usdtpoly', iconPath: 'assets/images/usdt_icon.png', decimals: 6);
   static const usdcEPoly = CryptoCurrency(title: 'USDC.E', tag: 'POLY', fullName: 'USD Coin (PoS)', raw: 88, name: 'usdcepoly', iconPath: 'assets/images/usdc_icon.png', decimals: 6);
 
-  static const xhv = CryptoCurrency(title: 'XCASH', fullName: 'XCash', raw: 89, name: 'xcash', iconPath: 'assets/images/xcash_logo.png', decimals: 12);
+  static const xcash = CryptoCurrency(title: 'XCASH', fullName: 'XCash', raw: 89, name: 'xcash', iconPath: 'assets/images/xcash_logo.png', decimals: 12);
 
-  static const xag = CryptoCurrency(title: 'XAG', tag: 'XCASH',  raw: 90, name: 'xag', decimals: 12);
-  static const xau = CryptoCurrency(title: 'XAU', tag: 'XCASH', raw: 91, name: 'xau', decimals: 12);
-  static const xaud = CryptoCurrency(title: 'XAUD', tag: 'XCASH', raw: 92, name: 'xaud', decimals: 12);
-  static const xbtc = CryptoCurrency(title: 'XBTC', tag: 'XCASH', raw: 93, name: 'xbtc', decimals: 12);
-  static const xcad = CryptoCurrency(title: 'XCAD', tag: 'XCASH', raw: 94, name: 'xcad', decimals: 12);
-  static const xchf = CryptoCurrency(title: 'XCHF', tag: 'XCASH', raw: 95, name: 'xchf', decimals: 12);
-  static const xcny = CryptoCurrency(title: 'XCNY', tag: 'XCASH', raw: 96, name: 'xcny', decimals: 12);
-  static const xeur = CryptoCurrency(title: 'XEUR', tag: 'XCASH', raw: 97, name: 'xeur', decimals: 12);
-  static const xgbp = CryptoCurrency(title: 'XGBP', tag: 'XCASH', raw: 98, name: 'xgbp', decimals: 12);
-  static const xjpy = CryptoCurrency(title: 'XJPY', tag: 'XCASH', raw: 99, name: 'xjpy', decimals: 12);
-  static const xnok = CryptoCurrency(title: 'XNOK', tag: 'XCASH', raw: 100, name: 'xnok', decimals: 12);
-  static const xnzd = CryptoCurrency(title: 'XNZD', tag: 'XCASH', raw: 101, name: 'xnzd', decimals: 12);
-  static const xusd = CryptoCurrency(title: 'XUSD', tag: 'XCASH', raw: 102, name: 'xusd', decimals: 12);
+  static const xxag = CryptoCurrency(title: 'XAG', tag: 'XCASH',  raw: 90, name: 'xag', decimals: 12);
+  static const xxau = CryptoCurrency(title: 'XAU', tag: 'XCASH', raw: 91, name: 'xau', decimals: 12);
+  static const xxaud = CryptoCurrency(title: 'XAUD', tag: 'XCASH', raw: 92, name: 'xaud', decimals: 12);
+  static const xxbtc = CryptoCurrency(title: 'XBTC', tag: 'XCASH', raw: 93, name: 'xbtc', decimals: 12);
+  static const xxcad = CryptoCurrency(title: 'XCAD', tag: 'XCASH', raw: 94, name: 'xcad', decimals: 12);
+  static const xxchf = CryptoCurrency(title: 'XCHF', tag: 'XCASH', raw: 95, name: 'xchf', decimals: 12);
+  static const xxcny = CryptoCurrency(title: 'XCNY', tag: 'XCASH', raw: 96, name: 'xcny', decimals: 12);
+  static const xxeur = CryptoCurrency(title: 'XEUR', tag: 'XCASH', raw: 97, name: 'xeur', decimals: 12);
+  static const xxgbp = CryptoCurrency(title: 'XGBP', tag: 'XCASH', raw: 98, name: 'xgbp', decimals: 12);
+  static const xxjpy = CryptoCurrency(title: 'XJPY', tag: 'XCASH', raw: 99, name: 'xjpy', decimals: 12);
+  static const xxnok = CryptoCurrency(title: 'XNOK', tag: 'XCASH', raw: 100, name: 'xnok', decimals: 12);
+  static const xxnzd = CryptoCurrency(title: 'XNZD', tag: 'XCASH', raw: 101, name: 'xnzd', decimals: 12);
+  static const xxusd = CryptoCurrency(title: 'XUSD', tag: 'XCASH', raw: 102, name: 'xusd', decimals: 12);
 
   static final Map<int, CryptoCurrency> _rawCurrencyMap =
     [...all, ...havenCurrencies].fold<Map<int, CryptoCurrency>>(<int, CryptoCurrency>{}, (acc, item) {

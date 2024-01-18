@@ -47,7 +47,7 @@ enum WalletType {
   bitcoinCash,
 
   @HiveField(9)
-  polygon
+  polygon,
 
   @HiveField(10)
   xcash
@@ -182,7 +182,7 @@ CryptoCurrency walletTypeToCryptoCurrency(WalletType type) {
       return CryptoCurrency.banano;
     case WalletType.polygon:
       return CryptoCurrency.maticpoly;
-    case WalletType.polygon:
+    case WalletType.xcash:
       return CryptoCurrency.xcash;
     default:
       throw Exception(
