@@ -10,6 +10,7 @@ import 'package:cake_wallet/store/settings_store.dart';
 import 'package:cake_wallet/view_model/dashboard/action_list_item.dart';
 import 'package:cake_wallet/monero/monero.dart';
 import 'package:cake_wallet/haven/haven.dart';
+import 'package:cake_wallet/xcash/xcash.dart';
 import 'package:cake_wallet/bitcoin/bitcoin.dart';
 import 'package:cake_wallet/entities/calculate_fiat_amount_raw.dart';
 import 'package:cake_wallet/view_model/dashboard/balance_view_model.dart';
@@ -55,7 +56,8 @@ class TransactionListItem extends ActionListItem with Keyable {
   String get formattedStatus {
     if (transaction.direction == TransactionDirection.incoming) {
       if (balanceViewModel.wallet.type == WalletType.monero ||
-          balanceViewModel.wallet.type == WalletType.haven) {
+          balanceViewModel.wallet.type == WalletType.haven ||
+          balanceViewModel.wallet.type == WalletType.xcash) {
         return formattedPendingStatus;
       }
     }
@@ -83,6 +85,13 @@ class TransactionListItem extends ActionListItem with Keyable {
         final price = balanceViewModel.fiatConvertationStore.prices[asset];
         amount = calculateFiatAmountRaw(
             cryptoAmount: haven!.formatterMoneroAmountToDouble(amount: transaction.amount),
+            price: price);
+        break;
+      case WalletType.xcash:
+        final asset = xcash!.assetOfTransaction(transaction);
+        final price = balanceViewModel.fiatConvertationStore.prices[asset];
+        amount = calculateFiatAmountRaw(
+            cryptoAmount: xcash!.formatterMoneroAmountToDouble(amount: transaction.amount),
             price: price);
         break;
       case WalletType.ethereum:

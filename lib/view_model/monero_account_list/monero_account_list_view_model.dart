@@ -5,6 +5,7 @@ import 'package:cw_core/wallet_base.dart';
 import 'package:cake_wallet/view_model/monero_account_list/account_list_item.dart';
 import 'package:cake_wallet/monero/monero.dart';
 import 'package:cake_wallet/haven/haven.dart';
+import 'package:cake_wallet/xcash/xcash.dart';
 
 part 'monero_account_list_view_model.g.dart';
 
@@ -33,6 +34,15 @@ abstract class MoneroAccountListViewModelBase with Store {
             label: acc.label,
             id: acc.id,
             isSelected: acc.id == haven!.getCurrentAccount(_wallet).id))
+        .toList();
+    }
+    if (_wallet.type == WalletType.xcash) {
+      return xcash
+        !.getAccountList(_wallet)
+        .accounts.map((acc) => AccountListItem(
+            label: acc.label,
+            id: acc.id,
+            isSelected: acc.id == xcash!.getCurrentAccount(_wallet).id))
         .toList();
     }
 
@@ -64,6 +74,13 @@ abstract class MoneroAccountListViewModelBase with Store {
 
     if (_wallet.type == WalletType.haven) {
       haven!.setCurrentAccount(
+        _wallet,
+        item.id,
+        item.label);
+    }
+
+    if (_wallet.type == WalletType.xcash) {
+      xcash!.setCurrentAccount(
         _wallet,
         item.id,
         item.label);

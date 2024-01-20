@@ -1,6 +1,7 @@
 import 'package:cake_wallet/entities/auto_generate_subaddress_status.dart';
 import 'package:cake_wallet/entities/fiat_api_mode.dart';
 import 'package:cake_wallet/entities/update_haven_rate.dart';
+import 'package:cake_wallet/entities/update_xcash_rate.dart';
 import 'package:cake_wallet/ethereum/ethereum.dart';
 import 'package:cake_wallet/polygon/polygon.dart';
 import 'package:cw_core/erc20_token.dart';
@@ -80,6 +81,10 @@ void startCurrentWalletChangeReaction(
 
       if (wallet.type == WalletType.haven) {
         await updateHavenRate(fiatConversionStore);
+      }
+
+      if (wallet.type == WalletType.xcash) {
+        await updateXCashRate(fiatConversionStore);
       }
 
       if (wallet.walletInfo.address.isEmpty) {

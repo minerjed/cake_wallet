@@ -1,0 +1,12 @@
+-
+  uri: seed1.xcash.tech:18281
+  useSSL: false
+  is_default: false
+-
+  uri: seed2.xcash.tech:18281
+  useSSL: false
+  is_default: true
+-
+  uri: seed3.xcash.tech:18281
+  useSSL: false
+  is_default: false

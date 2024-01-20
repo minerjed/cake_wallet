@@ -9,6 +9,7 @@ import 'package:cw_core/wallet_base.dart';
 import 'package:cake_wallet/src/screens/transaction_details/standart_list_item.dart';
 import 'package:cake_wallet/monero/monero.dart';
 import 'package:cake_wallet/haven/haven.dart';
+import 'package:cake_wallet/xcash/xcash.dart';
 import 'package:cw_monero/api/wallet.dart' as monero_wallet;
 import 'package:polyseed/polyseed.dart';
 
@@ -34,7 +35,8 @@ abstract class WalletKeysViewModelBase with Store {
       _populateItems();
     });
 
-    if (_appStore.wallet!.type == WalletType.monero || _appStore.wallet!.type == WalletType.haven) {
+    if (_appStore.wallet!.type == WalletType.monero || _appStore.wallet!.type == WalletType.haven ||
+     _appStore.wallet!.type == WalletType.xcash) {
       final accountTransactions = _getWalletTransactions(_appStore.wallet!);
       if (accountTransactions.isNotEmpty) {
         final incomingAccountTransactions =
@@ -102,6 +104,22 @@ abstract class WalletKeysViewModelBase with Store {
       ]);
     }
 
+    if (_appStore.wallet!.type == WalletType.xcash) {
+      final keys = xcash!.getKeys(_appStore.wallet!);
+
+      items.addAll([
+        if (keys['publicSpendKey'] != null)
+          StandartListItem(title: S.current.spend_key_public, value: keys['publicSpendKey']!),
+        if (keys['privateSpendKey'] != null)
+          StandartListItem(title: S.current.spend_key_private, value: keys['privateSpendKey']!),
+        if (keys['publicViewKey'] != null)
+          StandartListItem(title: S.current.view_key_public, value: keys['publicViewKey']!),
+        if (keys['privateViewKey'] != null)
+          StandartListItem(title: S.current.view_key_private, value: keys['privateViewKey']!),
+        StandartListItem(title: S.current.wallet_seed, value: _appStore.wallet!.seed!),
+      ]);
+    }
+
     if (_appStore.wallet!.type == WalletType.bitcoin ||
         _appStore.wallet!.type == WalletType.litecoin ||
         _appStore.wallet!.type == WalletType.bitcoinCash) {
@@ -139,6 +157,9 @@ abstract class WalletKeysViewModelBase with Store {
     if (_appStore.wallet!.type == WalletType.haven) {
       return await haven!.getCurrentHeight();
     }
+    if (_appStore.wallet!.type == WalletType.xcash) {
+      return await xcash!.getCurrentHeight();
+    }
     if (_appStore.wallet!.type == WalletType.monero) {
       return monero_wallet.getCurrentHeight();
     }
@@ -155,6 +176,8 @@ abstract class WalletKeysViewModelBase with Store {
         return 'litecoin-wallet';
       case WalletType.haven:
         return 'haven-wallet';
+      case WalletType.xcash:
+        return 'xcash-wallet';
       case WalletType.ethereum:
         return 'ethereum-wallet';
       case WalletType.bitcoinCash:
@@ -203,6 +226,8 @@ abstract class WalletKeysViewModelBase with Store {
       return monero!.getTransactionHistory(wallet).transactions.values.toList();
     } else if (wallet.type == WalletType.haven) {
       return haven!.getTransactionHistory(wallet).transactions.values.toList();
+    } else if (wallet.type == WalletType.xcash) {
+      return xcash!.getTransactionHistory(wallet).transactions.values.toList();
     }
     return [];
   }
@@ -212,6 +237,8 @@ abstract class WalletKeysViewModelBase with Store {
       return monero!.getHeightByDate(date: date);
     } else if (type == WalletType.haven) {
       return haven!.getHeightByDate(date: date);
+    } else if (type == WalletType.xcash) {
+      return xcash!.getHeightByDate(date: date);
     }
     return 0;
   }

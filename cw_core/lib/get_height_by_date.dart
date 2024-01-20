@@ -242,3 +242,73 @@ Future<int> getHavenCurrentHeight() async {
     throw Exception('Failed to load current blockchain height');
   }
 }
+
+
+// Fix, Hardcoded values are incorrect for xcash...
+const xcashDates = {
+  "2021-12": 982400,
+  "2021-11": 961000,
+  "2021-10": 938600,
+  "2021-09": 917000,
+  "2021-08": 894800,
+  "2021-07": 886000,
+  "2021-06": 867300,
+  "2021-05": 845000,
+  "2021-04": 823500,
+  "2021-03": 801500,
+  "2021-02": 781000,
+  "2021-01": 759000,
+  "2020-12": 736500,
+  "2020-11": 715000,
+  "2020-10": 693000,
+  "2020-09": 671000,
+  "2020-08": 649000,
+  "2020-07": 626600,
+  "2020-06": 605000,
+  "2020-05": 582700,
+  "2020-04": 561100,
+  "2020-03": 539000,
+  "2020-02": 518000,
+  "2020-01": 496000,
+  "2019-12": 473400,
+  "2019-11": 451900,
+  "2019-10": 429600,
+  "2019-09": 408000,
+  "2019-08": 385700,
+  "2019-07": 363800,
+  "2019-06": 342200,
+  "2019-05": 320000,
+  "2019-04": 298400,
+  "2019-03": 276000,
+  "2019-02": 256000,
+  "2019-01": 233700,
+  "2018-12": 211400,
+  "2018-11": 189800,
+  "2018-10": 167500,
+  "2018-09": 145900,
+  "2018-08": 123700,
+  "2018-07": 101400,
+  "2018-06": 80000,
+  "2018-05": 57550,
+  "2018-04": 32000,
+  "2018-03": 8500
+};
+
+int getHavenHeightByDate({required DateTime date}) {
+  String closestKey =
+      xcashDates.keys.firstWhere((key) => formatMapKey(key).isBefore(date), orElse: () => '');
+
+  return xcashDates[closestKey] ?? 0;
+}
+
+Future<int> getXCashCurrentHeight() async {
+  final response = await http.get(Uri.parse('https://api.xcash.live/v1/xcash/blockchain/unauthorized/blocks'));
+
+  if (response.statusCode == 200) {
+    final info = jsonDecode(response.body);
+    return info['data']['height'] as int;
+
+  } else {
+    throw Exception('Failed to load current blockchain height');
+  }
+}

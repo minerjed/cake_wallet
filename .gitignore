@@ -120,9 +120,15 @@ cw_haven/ios/External/
 cw_haven/android/.externalNativeBuild/
 cw_haven/android/.cxx/
 
+# cw_xcash/**
+cw_xcash/ios/External/
+cw_xcash/android/.externalNativeBuild/
+cw_xcash/android/.cxx/
+
 lib/bitcoin/bitcoin.dart
 lib/monero/monero.dart
 lib/haven/haven.dart
+lib/xcash/xcash.dart
 lib/ethereum/ethereum.dart
 lib/bitcoin_cash/bitcoin_cash.dart
 lib/nano/nano.dart

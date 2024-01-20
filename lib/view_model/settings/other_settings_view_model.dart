@@ -58,11 +58,11 @@ abstract class OtherSettingsViewModelBase with Store {
 
   @computed
   bool get isEnabledBuyAction =>
-      !_settingsStore.disableBuy && _wallet.type != WalletType.haven;
+      !_settingsStore.disableBuy && _wallet.type != WalletType.haven && _wallet.type != WalletType.xcash;
 
   @computed
   bool get isEnabledSellAction =>
-      !_settingsStore.disableSell && _wallet.type != WalletType.haven;
+      !_settingsStore.disableSell && _wallet.type != WalletType.haven && _wallet.type != WalletType.xcash;
 
   List<ProviderType> get availableBuyProvidersTypes {
     return ProvidersHelper.getAvailableBuyProviderTypes(walletType);

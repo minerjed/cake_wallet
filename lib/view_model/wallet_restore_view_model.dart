@@ -16,6 +16,7 @@ import 'package:cw_core/wallet_info.dart';
 import 'package:cake_wallet/view_model/wallet_creation_vm.dart';
 import 'package:cake_wallet/monero/monero.dart';
 import 'package:cake_wallet/haven/haven.dart';
+import 'package:cake_wallet/xcash/xcash.dart';
 import 'package:cake_wallet/view_model/restore/restore_mode.dart';
 
 part 'wallet_restore_view_model.g.dart';
@@ -26,8 +27,8 @@ abstract class WalletRestoreViewModelBase extends WalletCreationVM with Store {
   WalletRestoreViewModelBase(AppStore appStore, WalletCreationService walletCreationService,
       Box<WalletInfo> walletInfoSource,
       {required WalletType type})
-      : hasSeedLanguageSelector = type == WalletType.monero || type == WalletType.haven,
-        hasBlockchainHeightLanguageSelector = type == WalletType.monero || type == WalletType.haven,
+      : hasSeedLanguageSelector = type == WalletType.monero || type == WalletType.haven || type == WalletType.xcash,
+        hasBlockchainHeightLanguageSelector = type == WalletType.monero || type == WalletType.haven || type == WalletType.xcash,
         hasRestoreFromPrivateKey =
             type == WalletType.ethereum ||
             type == WalletType.polygon ||
@@ -39,6 +40,7 @@ abstract class WalletRestoreViewModelBase extends WalletCreationVM with Store {
     switch (type) {
       case WalletType.monero:
       case WalletType.haven:
+      case WalletType.xcash:
       case WalletType.ethereum:
       case WalletType.polygon:
         availableModes = WalletRestoreMode.values;
@@ -96,6 +98,9 @@ abstract class WalletRestoreViewModelBase extends WalletCreationVM with Store {
         case WalletType.haven:
           return haven!.createHavenRestoreWalletFromSeedCredentials(
               name: name, height: height, mnemonic: seed, password: password);
+        case WalletType.xcash:
+          return xcash!.createXCashRestoreWalletFromSeedCredentials(
+              name: name, height: height, mnemonic: seed, password: password);
         case WalletType.ethereum:
           return ethereum!.createEthereumRestoreWalletFromSeedCredentials(
               name: name,
@@ -142,6 +147,17 @@ abstract class WalletRestoreViewModelBase extends WalletCreationVM with Store {
 
         case WalletType.haven:
           return haven!.createHavenRestoreWalletFromKeysCredentials(
+            name: name,
+            height: height,
+            spendKey: spendKey!,
+            viewKey: viewKey!,
+            address: address!,
+            password: password,
+            language: 'English',
+          );
+
+        case WalletType.xcash:
+          return xcash!.createXCashRestoreWalletFromKeysCredentials(
             name: name,
             height: height,
             spendKey: spendKey!,

@@ -29,6 +29,7 @@ class MenuWidgetState extends State<MenuWidget> {
       this.bitcoinIcon = Image.asset('assets/images/bitcoin_menu.png'),
       this.litecoinIcon = Image.asset('assets/images/litecoin_menu.png'),
       this.havenIcon = Image.asset('assets/images/haven_menu.png'),
+      this.xcashIcon = Image.asset('assets/images/xcash_menu.png'),
       this.ethereumIcon = Image.asset('assets/images/eth_icon.png'),
       this.nanoIcon = Image.asset('assets/images/nano_icon.png'),
       this.bananoIcon = Image.asset('assets/images/nano_icon.png'),
@@ -51,6 +52,7 @@ class MenuWidgetState extends State<MenuWidget> {
   Image bitcoinIcon;
   Image litecoinIcon;
   Image havenIcon;
+  Image xcashIcon;
   Image ethereumIcon;
   Image bitcoinCashIcon;
   Image nanoIcon;
@@ -214,6 +216,8 @@ class MenuWidgetState extends State<MenuWidget> {
         return litecoinIcon;
       case WalletType.haven:
         return havenIcon;
+      case WalletType.xcash:
+        return xcashIcon;
       case WalletType.ethereum:
         return ethereumIcon;
       case WalletType.bitcoinCash:

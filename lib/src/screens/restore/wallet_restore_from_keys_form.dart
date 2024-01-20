@@ -168,7 +168,8 @@ class WalletRestoreFromKeysFromState extends State<WalletRestoreFromKeysFrom> {
         ),
         BlockchainHeightWidget(
           key: blockchainHeightKey,
-          hasDatePicker: widget.walletRestoreViewModel.type != WalletType.haven,
+          hasDatePicker: widget.walletRestoreViewModel.type != WalletType.haven && 
+            widget.walletRestoreViewModel.type != WalletType.xcash,
           onHeightChange: (_) => null,
           onHeightOrDateEntered: widget.onHeightOrDateEntered,
         ),

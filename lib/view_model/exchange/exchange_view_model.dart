@@ -274,6 +274,7 @@ abstract class ExchangeViewModelBase extends WalletChangeListenerViewModel with 
     switch (wallet.type) {
       case WalletType.monero:
       case WalletType.haven:
+      case WalletType.xcash:
         return transactionPriority == monero!.getMoneroTransactionPrioritySlow();
       case WalletType.bitcoin:
         return transactionPriority == bitcoin!.getBitcoinTransactionPrioritySlow();
@@ -613,6 +614,10 @@ abstract class ExchangeViewModelBase extends WalletChangeListenerViewModel with 
         depositCurrency = CryptoCurrency.xhv;
         receiveCurrency = CryptoCurrency.btc;
         break;
+      case WalletType.xcash:
+        depositCurrency = CryptoCurrency.xcash;
+        receiveCurrency = CryptoCurrency.btc;
+        break;
       case WalletType.ethereum:
         depositCurrency = CryptoCurrency.eth;
         receiveCurrency = CryptoCurrency.xmr;
@@ -698,6 +703,7 @@ abstract class ExchangeViewModelBase extends WalletChangeListenerViewModel with 
     switch (wallet.type) {
       case WalletType.monero:
       case WalletType.haven:
+      case WalletType.xcash:
         _settingsStore.priority[wallet.type] = monero!.getMoneroTransactionPriorityAutomatic();
         break;
       case WalletType.bitcoin:

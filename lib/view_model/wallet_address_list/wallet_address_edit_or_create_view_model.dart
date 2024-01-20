@@ -5,6 +5,7 @@ import 'package:cw_core/wallet_base.dart';
 import 'package:cake_wallet/bitcoin/bitcoin.dart';
 import 'package:cake_wallet/monero/monero.dart';
 import 'package:cake_wallet/haven/haven.dart';
+import 'package:cake_wallet/xcash/xcash.dart';
 import 'package:cw_core/wallet_type.dart';
 
 part 'wallet_address_edit_or_create_view_model.g.dart';
@@ -91,6 +92,16 @@ abstract class WalletAddressEditOrCreateViewModelBase with Store {
             label: label);
       await wallet.save();
     }
+
+    if (wallet.type == WalletType.xcash) {
+      await xcash
+          !.getSubaddressList(wallet)
+          .addSubaddress(
+            wallet,
+            accountIndex: xcash!.getCurrentAccount(wallet).id,
+            label: label);
+      await wallet.save();
+    }
   }
 
   Future<void> _update() async {
@@ -110,6 +121,13 @@ abstract class WalletAddressEditOrCreateViewModelBase with Store {
       if (wallet.type == WalletType.haven) {
         await haven!.getSubaddressList(wallet).setLabelSubaddress(wallet,
             accountIndex: haven!.getCurrentAccount(wallet).id,
+            addressIndex: index,
+            label: label);
+        await wallet.save();
+      }
+      if (wallet.type == WalletType.xcash) {
+        await xcash!.getSubaddressList(wallet).setLabelSubaddress(wallet,
+            accountIndex: xcash!.getCurrentAccount(wallet).id,
             addressIndex: index,
             label: label);
         await wallet.save();

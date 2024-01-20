@@ -160,6 +160,10 @@ Generate mobx models for `cw_haven`:
 
 `cd cw_haven && flutter pub get && flutter packages pub run build_runner build --delete-conflicting-outputs && cd ..`
 
+Generate mobx models for `cw_xcash`:
+
+`cd cw_xcash && flutter pub get && flutter packages pub run build_runner build --delete-conflicting-outputs && cd ..`
+
 Finally build mobx models for the app:
 
 `$ flutter packages pub run build_runner build --delete-conflicting-outputs`

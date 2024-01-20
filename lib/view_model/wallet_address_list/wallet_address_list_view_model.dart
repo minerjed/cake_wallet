@@ -16,6 +16,7 @@ import 'package:cake_wallet/bitcoin/bitcoin.dart';
 import 'package:cake_wallet/store/app_store.dart';
 import 'package:cake_wallet/monero/monero.dart';
 import 'package:cake_wallet/haven/haven.dart';
+import 'package:cake_wallet/xcash/xcash.dart';
 
 part 'wallet_address_list_view_model.g.dart';
 
@@ -51,6 +52,22 @@ class HavenURI extends PaymentURI {
   @override
   String toString() {
     var base = 'haven:' + address;
+
+    if (amount.isNotEmpty) {
+      base += '?tx_amount=${amount.replaceAll(',', '.')}';
+    }
+
+    return base;
+  }
+}
+
+class XCashURI extends PaymentURI {
+  XCashURI({required String amount, required String address})
+      : super(amount: amount, address: address);
+
+  @override
+  String toString() {
+    var base = 'xcash:' + address;
 
     if (amount.isNotEmpty) {
       base += '?tx_amount=${amount.replaceAll(',', '.')}';
@@ -165,7 +182,8 @@ abstract class WalletAddressListViewModelBase extends WalletChangeListenerViewMo
         selectedCurrency = walletTypeToCryptoCurrency(appStore.wallet!.type),
         _cryptoNumberFormat = NumberFormat(_cryptoNumberPattern),
         hasAccounts =
-            appStore.wallet!.type == WalletType.monero || appStore.wallet!.type == WalletType.haven,
+            appStore.wallet!.type == WalletType.monero || appStore.wallet!.type == WalletType.haven ||
+              appStore.wallet!.type == WalletType.xcash,
         amount = '',
         super(appStore: appStore) {
     _init();
@@ -176,7 +194,7 @@ abstract class WalletAddressListViewModelBase extends WalletChangeListenerViewMo
     _init();
 
     selectedCurrency = walletTypeToCryptoCurrency(wallet.type);
-    hasAccounts = wallet.type == WalletType.monero || wallet.type == WalletType.haven;
+    hasAccounts = wallet.type == WalletType.monero || wallet.type == WalletType.haven || wallet.type == WalletType.haven;
   }
 
   static const String _cryptoNumberPattern = '0.00000000';
@@ -211,6 +229,10 @@ abstract class WalletAddressListViewModelBase extends WalletChangeListenerViewMo
 
     if (wallet.type == WalletType.haven) {
       return HavenURI(amount: amount, address: address.address);
+    }
+
+    if (wallet.type == WalletType.xcash) {
+      return XCashURI(amount: amount, address: address.address);
     }
 
     if (wallet.type == WalletType.bitcoin) {
@@ -277,6 +299,20 @@ abstract class WalletAddressListViewModelBase extends WalletChangeListenerViewMo
       addressList.addAll(addressItems);
     }
 
+    if (wallet.type == WalletType.xcash) {
+      final primaryAddress = xcash!.getSubaddressList(wallet).subaddresses.first;
+      final addressItems = xcash!.getSubaddressList(wallet).subaddresses.map((subaddress) {
+        final isPrimary = subaddress == primaryAddress;
+
+        return WalletAddressListItem(
+            id: subaddress.id,
+            isPrimary: isPrimary,
+            name: subaddress.label,
+            address: subaddress.address);
+      });
+      addressList.addAll(addressItems);
+    }
+
     if (wallet.type == WalletType.bitcoin) {
       final primaryAddress = bitcoin!.getAddress(wallet);
       final bitcoinAddresses = bitcoin!.getAddresses(wallet).map((addr) {
@@ -315,13 +351,18 @@ abstract class WalletAddressListViewModelBase extends WalletChangeListenerViewMo
       return haven!.getCurrentAccount(wallet).label;
     }
 
+    if (wallet.type == WalletType.xcash) {
+      return xcash!.getCurrentAccount(wallet).label;
+    }
+
     return '';
   }
 
   @computed
   bool get hasAddressList =>
       wallet.type == WalletType.monero ||
-      wallet.type == WalletType.haven;/* ||
+      wallet.type == WalletType.haven ||
+      wallet.type == WalletType.xcash; /* ||
       wallet.type == WalletType.nano ||
       wallet.type == WalletType.banano;*/// TODO: nano accounts are disabled for now
 
@@ -343,7 +384,8 @@ abstract class WalletAddressListViewModelBase extends WalletChangeListenerViewMo
     _baseItems = [];
 
     if (wallet.type == WalletType.monero ||
-        wallet.type == WalletType.haven /*||
+        wallet.type == WalletType.haven ||
+        wallet.type == WalletType.xcash /*||
         wallet.type == WalletType.nano ||
         wallet.type == WalletType.banano*/) {
       _baseItems.add(WalletAccountListHeader());

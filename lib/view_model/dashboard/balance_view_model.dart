@@ -98,7 +98,7 @@ abstract class BalanceViewModelBase with Store {
     final typeFormatted = walletTypeToString(appStore.wallet!.type);
 
     switch(wallet.type) {
-      case WalletType.haven:
+      case WalletType.haven :
         return '$typeFormatted Assets';
       default:
         return typeFormatted;
@@ -123,6 +123,7 @@ abstract class BalanceViewModelBase with Store {
     switch(wallet.type) {
       case WalletType.monero:
       case WalletType.haven:
+      case WalletType.xcash:
       case WalletType.ethereum:
       case WalletType.polygon:
         return S.current.xmr_available_balance;
@@ -136,6 +137,7 @@ abstract class BalanceViewModelBase with Store {
     switch(wallet.type) {
       case WalletType.monero:
       case WalletType.haven:
+      case WalletType.xcash:
       case WalletType.ethereum:
       case WalletType.polygon:
         return S.current.xmr_full_balance;

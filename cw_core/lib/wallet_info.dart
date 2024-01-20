@@ -159,7 +159,7 @@ class WalletInfo extends HiveObject {
 
   bool get isShowIntroCakePayCard {
     if (showIntroCakePayCard == null) {
-      return type != WalletType.haven;
+        return type != WalletType.haven && type != WalletType.xcash;
     }
     return showIntroCakePayCard!;
   }

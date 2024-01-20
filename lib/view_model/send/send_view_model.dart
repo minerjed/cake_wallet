@@ -33,6 +33,7 @@ import 'package:cake_wallet/view_model/send/send_view_model_state.dart';
 import 'package:cake_wallet/entities/parsed_address.dart';
 import 'package:cake_wallet/bitcoin/bitcoin.dart';
 import 'package:cake_wallet/haven/haven.dart';
+import 'package:cake_wallet/xcash/xcash.dart';
 import 'package:cake_wallet/generated/i18n.dart';
 
 part 'send_view_model.g.dart';
@@ -212,7 +213,7 @@ abstract class SendViewModelBase extends WalletChangeListenerViewModel with Stor
 
   String? get walletCurrencyName => wallet.currency.fullName?.toLowerCase() ?? wallet.currency.name;
 
-  bool get hasCurrecyChanger => walletType == WalletType.haven;
+  bool get hasCurrecyChanger => walletType == WalletType.haven || walletType == WalletType.xcash;
 
   @computed
   FiatCurrency get fiatCurrency => _settingsStore.fiatCurrency;
@@ -369,6 +370,10 @@ abstract class SendViewModelBase extends WalletChangeListenerViewModel with Stor
         return haven!.createHavenTransactionCreationCredentials(
             outputs: outputs, priority: priority!, assetType: selectedCryptoCurrency.title);
 
+      case WalletType.xcash:
+        return xcash!.createXCashTransactionCreationCredentials(
+            outputs: outputs, priority: priority!, assetType: selectedCryptoCurrency.title);
+
       case WalletType.ethereum:
         return ethereum!.createEthereumTransactionCredentials(outputs,
             priority: priority!, currency: selectedCryptoCurrency);
@@ -419,7 +424,8 @@ abstract class SendViewModelBase extends WalletChangeListenerViewModel with Stor
   ) {
     if (walletType == WalletType.ethereum ||
         walletType == WalletType.polygon ||
-        walletType == WalletType.haven) {
+        walletType == WalletType.haven ||
+        walletType == WalletType.xcash) {
       if (error.contains('gas required exceeds allowance') ||
           error.contains('insufficient funds for')) {
         return S.current.do_not_have_enough_gas_asset(currency.toString());

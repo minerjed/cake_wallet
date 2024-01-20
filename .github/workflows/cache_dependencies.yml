@@ -48,7 +48,7 @@ jobs:
             /opt/android/xcash_cakewallet/cw_monero/android/.cxx
             /opt/android/xcash_cakewallet/cw_monero/ios/External
             /opt/android/xcash_cakewallet/cw_shared_external/ios/External
-          key: ${{ hashFiles('**/build_monero.sh', '**/build_haven.sh', '**/monero_api.cpp') }}
+          key: ${{ hashFiles('**/build_monero.sh', '**/build_haven.sh', '**/build_xcash.sh', '**/monero_api.cpp') }}
 
       - if: ${{ steps.cache-externals.outputs.cache-hit != 'true' }}
         name: Generate Externals

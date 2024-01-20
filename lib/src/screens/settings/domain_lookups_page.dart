@@ -47,6 +47,7 @@ class DomainLookupsPage extends BasePage {
                   onValueChange: (_, bool value) => _privacySettingsViewModel.setLookupsENS(value)),
 
               //if (!isHaven) it does not work correctly
+              //if (!isXCash) it does not work correctly
             ],
           ),
         );

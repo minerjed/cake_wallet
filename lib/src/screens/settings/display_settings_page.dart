@@ -41,6 +41,7 @@ class DisplaySettingsPage extends BasePage {
                 },
               ),
               //if (!isHaven) it does not work correctly
+              //if (!isXCash) it does not work correctly
               if (!_displaySettingsViewModel.disabledFiatApiMode)
                 SettingsPickerCell<FiatCurrency>(
                   title: S.current.settings_currency,

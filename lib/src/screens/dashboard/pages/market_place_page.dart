@@ -92,6 +92,17 @@ class MarketPlacePage extends StatelessWidget {
                   buttonAction: () => Navigator.of(context).pop());
             });
         break;
+      case WalletType.xcash:
+        showPopUp<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertWithOneAction(
+                  alertTitle: S.of(context).error,
+                  alertContent: S.of(context).gift_cards_unavailable,
+                  buttonText: S.of(context).ok,
+                  buttonAction: () => Navigator.of(context).pop());
+            });
+        break;
       default:
         marketPlaceViewModel.isIoniaUserAuthenticated().then((value) {
           if (value) {

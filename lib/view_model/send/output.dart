@@ -4,6 +4,7 @@ import 'package:cake_wallet/entities/parse_address_from_domain.dart';
 import 'package:cake_wallet/entities/parsed_address.dart';
 import 'package:cake_wallet/ethereum/ethereum.dart';
 import 'package:cake_wallet/haven/haven.dart';
+import 'package:cake_wallet/xcash/xcash.dart';
 import 'package:cake_wallet/polygon/polygon.dart';
 import 'package:cake_wallet/reactions/wallet_connect.dart';
 import 'package:cake_wallet/src/screens/send/widgets/extract_address_from_parsed.dart';
@@ -90,6 +91,9 @@ abstract class OutputBase with Store {
           case WalletType.haven:
             _amount = haven!.formatterMoneroParseAmount(amount: _cryptoAmount);
             break;
+          case WalletType.xcash:
+            _amount = xcash!.formatterMoneroParseAmount(amount: _cryptoAmount);
+            break;
           case WalletType.ethereum:
             _amount = ethereum!.formatterEthereumParseAmount(_cryptoAmount);
             break;
@@ -129,6 +133,10 @@ abstract class OutputBase with Store {
 
       if (_wallet.type == WalletType.haven) {
         return haven!.formatterMoneroAmountToDouble(amount: fee);
+      }
+
+      if (_wallet.type == WalletType.xcash) {
+        return xcash!.formatterMoneroAmountToDouble(amount: fee);
       }
 
       if (_wallet.type == WalletType.ethereum) {
@@ -247,6 +255,9 @@ abstract class OutputBase with Store {
         break;
       case WalletType.haven:
         maximumFractionDigits = 12;
+        break;
+      case WalletType.xcash:
+        maximumFractionDigits = 6;
         break;
       case WalletType.ethereum:
       case WalletType.polygon:

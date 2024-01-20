@@ -13,6 +13,7 @@ import 'package:cw_core/wallet_type.dart';
 import 'package:cake_wallet/view_model/wallet_creation_vm.dart';
 import 'package:cake_wallet/bitcoin/bitcoin.dart';
 import 'package:cake_wallet/haven/haven.dart';
+import 'package:cake_wallet/xcash/xcash.dart';
 import 'advanced_privacy_settings_view_model.dart';
 
 import '../polygon/polygon.dart';
@@ -33,7 +34,7 @@ abstract class WalletNewVMBase extends WalletCreationVM with Store {
   @observable
   String selectedMnemonicLanguage;
 
-  bool get hasLanguageSelector => type == WalletType.monero || type == WalletType.haven;
+  bool get hasLanguageSelector => type == WalletType.monero || type == WalletType.haven || type == WalletType.xcash;
 
   int get seedPhraseWordsLength {
       switch (type) {
@@ -65,6 +66,9 @@ abstract class WalletNewVMBase extends WalletCreationVM with Store {
         return bitcoin!.createBitcoinNewWalletCredentials(name: name);
       case WalletType.haven:
         return haven!.createHavenNewWalletCredentials(
+            name: name, language: options!.first as String);
+      case WalletType.xcash:
+        return xcash!.createXCashNewWalletCredentials(
             name: name, language: options!.first as String);
       case WalletType.ethereum:
         return ethereum!.createEthereumNewWalletCredentials(name: name);

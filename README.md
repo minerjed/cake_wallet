@@ -65,6 +65,10 @@
 
 * Send, receive, and store XHV and all xAssets like xUSD, xEUR, xAG, etc.
 
+### XCasj Specific Features
+
+* Send, receive, and store XCASH and all xAssets like xUSD, xEUR, xAG, etc.
+
 # Monero.com by Cake Wallet for Android and iOS
 
 ## Open Source Monero-Only Wallet

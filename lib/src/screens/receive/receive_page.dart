@@ -101,6 +101,7 @@ class ReceivePage extends BasePage {
   Widget body(BuildContext context) {
     return (addressListViewModel.type == WalletType.monero ||
             addressListViewModel.type == WalletType.haven ||
+            addressListViewModel.type == WalletType.xcash ||
             addressListViewModel.type == WalletType.nano ||
             addressListViewModel.type == WalletType.banano)
         ? KeyboardActions(
@@ -142,7 +143,8 @@ class ReceivePage extends BasePage {
                               cell = HeaderTile(
                                   onTap: () async {
                                     if (addressListViewModel.type == WalletType.monero ||
-                                        addressListViewModel.type == WalletType.haven) {
+                                        addressListViewModel.type == WalletType.haven ||
+                                        addressListViewModel.type == WalletType.xcash) {
                                       await showPopUp<void>(
                                           context: context,
                                           builder: (_) => getIt.get<MoneroAccountListPage>());

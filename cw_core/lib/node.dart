@@ -77,6 +77,8 @@ class Node extends HiveObject with Keyable {
         return createUriFromElectrumAddress(uriRaw);
       case WalletType.haven:
         return Uri.http(uriRaw, '');
+      case WalletType.xcash:
+        return Uri.http(uriRaw, '');
       case WalletType.ethereum:
         return Uri.https(uriRaw, '');
       case WalletType.bitcoinCash:
@@ -140,6 +142,8 @@ class Node extends HiveObject with Keyable {
         case WalletType.litecoin:
           return requestElectrumServer();
         case WalletType.haven:
+          return requestMoneroNode();
+        case WalletType.xcash:
           return requestMoneroNode();
         case WalletType.ethereum:
           return requestElectrumServer();

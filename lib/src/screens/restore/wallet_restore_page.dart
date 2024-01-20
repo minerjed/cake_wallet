@@ -248,7 +248,8 @@ class WalletRestorePage extends BasePage {
     final seedWords = seedPhrase.split(' ');
 
     if ((walletRestoreViewModel.type == WalletType.monero ||
-            walletRestoreViewModel.type == WalletType.haven) &&
+            walletRestoreViewModel.type == WalletType.haven ||
+            walletRestoreViewModel.type == WalletType.xcash) &&
         seedWords.length != WalletRestoreViewModelBase.moneroSeedMnemonicLength) {
       return false;
     }

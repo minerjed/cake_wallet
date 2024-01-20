@@ -79,6 +79,7 @@ import 'package:cake_wallet/ionia/ionia_api.dart';
 import 'package:cake_wallet/ionia/ionia_merchant.dart';
 import 'package:cake_wallet/monero/monero.dart';
 import 'package:cake_wallet/haven/haven.dart';
+import 'package:cake_wallet/xcash/xcash.dart';
 import 'package:cake_wallet/bitcoin/bitcoin.dart';
 import 'package:cake_wallet/src/screens/ionia/cards/ionia_account_cards_page.dart';
 import 'package:cake_wallet/src/screens/ionia/cards/ionia_account_page.dart';
@@ -656,7 +657,7 @@ Future<void> setup({
 
   getIt.registerFactory<MoneroAccountListViewModel>(() {
     final wallet = getIt.get<AppStore>().wallet!;
-    if (wallet.type == WalletType.monero || wallet.type == WalletType.haven) {
+    if (wallet.type == WalletType.monero || wallet.type == WalletType.haven || wallet.type == WalletType.xcash) {
       return MoneroAccountListViewModel(wallet);
     }
     throw Exception(
@@ -688,6 +689,7 @@ Future<void> setup({
       (AccountListItem? account, _) => MoneroAccountEditOrCreateViewModel(
           monero!.getAccountList(getIt.get<AppStore>().wallet!),
           haven?.getAccountList(getIt.get<AppStore>().wallet!),
+          xcash?.getAccountList(getIt.get<AppStore>().wallet!),
           wallet: getIt.get<AppStore>().wallet!,
           accountListItem: account));
 
@@ -849,6 +851,8 @@ Future<void> setup({
     switch (param1) {
       case WalletType.haven:
         return haven!.createHavenWalletService(_walletInfoSource);
+      case WalletType.xcash:
+        return xcash!.createHavenWalletService(_walletInfoSource);
       case WalletType.monero:
         return monero!.createMoneroWalletService(_walletInfoSource, _unspentCoinsInfoSource);
       case WalletType.bitcoin:
