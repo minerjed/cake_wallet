@@ -495,9 +495,6 @@ abstract class HavenAccountList {
   await outputFile.writeAsString(output);
 }
 
-
-********
-
 Future<void> generateXCash(bool hasImplementation) async {
   final outputFile = File(xcashOutputPath);
   const xcashCommonHeaders = """
@@ -676,7 +673,6 @@ abstract class XCashAccountList {
 
   await outputFile.writeAsString(output);
 }
-********
 
 Future<void> generateEthereum(bool hasImplementation) async {
   final outputFile = File(ethereumOutputPath);
