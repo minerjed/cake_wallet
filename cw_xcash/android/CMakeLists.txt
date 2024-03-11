@@ -160,11 +160,6 @@ add_library(randomx STATIC IMPORTED)
 set_target_properties(randomx PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/librandomx.a)
         
-add_library(offshore STATIC IMPORTED)
-set_target_properties(offshore PROPERTIES IMPORTED_LOCATION
-        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/liboffshore.a)
-
-
 add_library(rpc_base STATIC IMPORTED)
 set_target_properties(rpc_base PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/librpc_base.a)
@@ -198,7 +193,6 @@ target_link_libraries(  cw_xcash
                         multisig
                         version
                         randomx
-                        offshore
                         hardforks
                         rpc_base
 
