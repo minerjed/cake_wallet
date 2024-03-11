@@ -18,7 +18,7 @@ git reset --hard $ZLIB_COMMIT_HASH
 CC=clang CXX=clang++ ./configure --static
 make
 
-curl https://www.openssl.org/source/$OPENSSL_FILENAME -o $OPENSSL_FILE_PATH
+curl https://www.openssl.org/source/old/1.1.1/$OPENSSL_FILENAME -o $OPENSSL_FILE_PATH
 echo $OPENSSL_SHA256 $OPENSSL_FILE_PATH | sha256sum -c - || exit 1
 
 for arch in "aarch" "aarch64" "i686" "x86_64"
