@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 add_library( cw_xcash
              SHARED
+             ./jni/xcash_jni.cpp
              ../ios/Classes/xcash_api.cpp)
 
              find_library( log-lib log )
@@ -88,6 +89,10 @@ add_library(cryptonote_basic STATIC IMPORTED)
 set_target_properties(cryptonote_basic PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libcryptonote_basic.a)
 
+add_library(cryptonote_format_utils_basic STATIC IMPORTED)
+set_target_properties(cryptonote_format_utils_basic PROPERTIES IMPORTED_LOCATION
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libcryptonote_format_utils_basic.a)        
+
 add_library(mnemonics STATIC IMPORTED)
 set_target_properties(mnemonics PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libmnemonics.a)
@@ -128,6 +133,10 @@ add_library(epee STATIC IMPORTED)
 set_target_properties(epee PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libepee.a)
 
+add_library(blocks STATIC IMPORTED)
+set_target_properties(blocks PROPERTIES IMPORTED_LOCATION
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libblocks.a)
+
 add_library(checkpoints STATIC IMPORTED)
 set_target_properties(checkpoints PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libcheckpoints.a)
@@ -159,7 +168,7 @@ set_target_properties(hardforks PROPERTIES IMPORTED_LOCATION
 add_library(randomx STATIC IMPORTED)
 set_target_properties(randomx PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/librandomx.a)
-        
+
 add_library(rpc_base STATIC IMPORTED)
 set_target_properties(rpc_base PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/librpc_base.a)
@@ -167,6 +176,12 @@ set_target_properties(rpc_base PROPERTIES IMPORTED_LOCATION
 add_library(wallet-crypto STATIC IMPORTED)
 set_target_properties(wallet-crypto PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libwallet-crypto.a)
+
+set(WALLET_CRYPTO "")
+
+if(${ANDROID_ABI} STREQUAL "x86_64")
+    set(WALLET_CRYPTO "wallet-crypto")
+endif()
 
 include_directories( ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/include )
 
@@ -176,6 +191,7 @@ target_link_libraries(  cw_xcash
                         wallet
                         cryptonote_core
                         cryptonote_basic
+                        cryptonote_format_utils_basic
                         mnemonics
                         ringct
                         ringct_basic
@@ -187,6 +203,7 @@ target_link_libraries(  cw_xcash
                         easylogging
                         unbound
                         epee
+                        blocks
                         checkpoints
                         device
                         device_trezor
@@ -195,6 +212,7 @@ target_link_libraries(  cw_xcash
                         randomx
                         hardforks
                         rpc_base
+                        ${WALLET_CRYPTO}
 
                         boost_chrono
                         boost_date_time
@@ -208,7 +226,7 @@ target_link_libraries(  cw_xcash
 
                         ssl
                         crypto
-
+                        
                         sodium
 
-                        ${log-lib} )
+                       ${log-lib} )
