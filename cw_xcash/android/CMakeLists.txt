@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 add_library( cw_xcash
              SHARED
-             ./jni/xcash_jni.cpp
+##             ./jni/monero_jni.cpp
              ../ios/Classes/xcash_api.cpp)
 
              find_library( log-lib log )
