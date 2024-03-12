@@ -1,6 +1,8 @@
 import 'dart:ffi';
-import 'package:cw_xcash/api/structs/pending_transaction.dart';
-import 'package:cw_xcash/api/structs/ut8_box.dart';
+import 'package:cw_monero/api/structs/coins_info_row.dart';
+import 'package:cw_monero/api/structs/pending_transaction.dart';
+import 'package:cw_monero/api/structs/transaction_info_row.dart';
+import 'package:cw_monero/api/structs/ut8_box.dart';
 import 'package:ffi/ffi.dart';
 
 typedef CreateWallet = int Function(
@@ -11,6 +13,9 @@ typedef RestoreWalletFromSeed = int Function(
 
 typedef RestoreWalletFromKeys = int Function(Pointer<Utf8>, Pointer<Utf8>,
     Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int, int, Pointer<Utf8>);
+
+typedef RestoreWalletFromSpendKey = int Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>,
+    Pointer<Utf8>, Pointer<Utf8>, int, int, Pointer<Utf8>);
 
 typedef IsWalletExist = int Function(Pointer<Utf8>);
 
@@ -23,10 +28,6 @@ typedef GetFilename = Pointer<Utf8> Function();
 typedef GetSeed = Pointer<Utf8> Function();
 
 typedef GetAddress = Pointer<Utf8> Function(int, int);
-
-typedef GetXCashFullBalance = Pointer<Int64> Function(int);
-
-typedef GetXCashUnlockedBalance = Pointer<Int64> Function(int);
 
 typedef GetFullBalance = int Function(int);
 
@@ -84,6 +85,8 @@ typedef AccountSetLabel = void Function(int accountIndex, Pointer<Utf8> label);
 
 typedef TransactionsRefresh = void Function();
 
+typedef GetTransaction = Pointer<TransactionInfoRow> Function(Pointer<Utf8> txId);
+
 typedef GetTxKey = Pointer<Utf8>? Function(Pointer<Utf8> txId);
 
 typedef TransactionsCount = int Function();
@@ -92,22 +95,24 @@ typedef TransactionsGetAll = Pointer<Int64> Function();
 
 typedef TransactionCreate = int Function(
     Pointer<Utf8> address,
-    Pointer<Utf8> assetType,
     Pointer<Utf8> paymentId,
     Pointer<Utf8> amount,
     int priorityRaw,
     int subaddrAccount,
+    Pointer<Pointer<Utf8>> preferredInputs,
+    int preferredInputsSize,
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef TransactionCreateMultDest = int Function(
     Pointer<Pointer<Utf8>> addresses,
-    Pointer<Utf8> assetType,
     Pointer<Utf8> paymentId,
     Pointer<Pointer<Utf8>> amounts,
     int size,
     int priorityRaw,
     int subaddrAccount,
+    Pointer<Pointer<Utf8>> preferredInputs,
+    int preferredInputsSize,
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
@@ -127,16 +132,22 @@ typedef OnStartup = void Function();
 
 typedef RescanBlockchainAsync = void Function();
 
-typedef AssetTypes = Pointer<Pointer<Utf8>> Function();
-
-typedef AssetTypesSize = int Function();
-
-typedef GetRate = Pointer<Int64> Function();
-
-typedef SizeOfRate = int Function();
-
-typedef UpdateRate = void Function();
+typedef GetSubaddressLabel = Pointer<Utf8> Function(
+    int accountIndex,
+    int addressIndex);
 
 typedef SetTrustedDaemon = void Function(int);
 
 typedef TrustedDaemon = int Function();
+
+typedef RefreshCoins = void Function(int);
+
+typedef CoinsCount = int Function();
+
+typedef GetCoin = Pointer<CoinsInfoRow> Function(int);
+
+typedef FreezeCoin = void Function(int);
+
+typedef ThawCoin = void Function(int);
+
+typedef SignMessage = Pointer<Utf8> Function(Pointer<Utf8>, Pointer<Utf8>);

@@ -1,29 +1,29 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cw_xcash/api/signatures.dart';
-import 'package:cw_xcash/api/types.dart';
-import 'package:cw_xcash/api/xcash_api.dart';
-import 'package:cw_xcash/api/structs/subaddress_row.dart';
-import 'package:cw_xcash/api/wallet.dart';
+import 'package:cw_monero/api/signatures.dart';
+import 'package:cw_monero/api/types.dart';
+import 'package:cw_monero/api/monero_api.dart';
+import 'package:cw_monero/api/structs/subaddress_row.dart';
+import 'package:cw_monero/api/wallet.dart';
 
-final subaddressSizeNative = xcashApi
+final subaddressSizeNative = moneroApi
     .lookup<NativeFunction<subaddrress_size>>('subaddrress_size')
     .asFunction<SubaddressSize>();
 
-final subaddressRefreshNative = xcashApi
+final subaddressRefreshNative = moneroApi
     .lookup<NativeFunction<subaddrress_refresh>>('subaddress_refresh')
     .asFunction<SubaddressRefresh>();
 
-final subaddrressGetAllNative = xcashApi
+final subaddrressGetAllNative = moneroApi
     .lookup<NativeFunction<subaddress_get_all>>('subaddrress_get_all')
     .asFunction<SubaddressGetAll>();
 
-final subaddrressAddNewNative = xcashApi
+final subaddrressAddNewNative = moneroApi
     .lookup<NativeFunction<subaddress_add_new>>('subaddress_add_row')
     .asFunction<SubaddressAddNew>();
 
-final subaddrressSetLabelNative = xcashApi
+final subaddrressSetLabelNative = moneroApi
     .lookup<NativeFunction<subaddress_set_label>>('subaddress_set_label')
     .asFunction<SubaddressSetLabel>();
 
@@ -80,13 +80,13 @@ void _setLabelForSubaddress(Map<String, dynamic> args) {
       accountIndex: accountIndex, addressIndex: addressIndex, label: label);
 }
 
-Future addSubaddress({required int accountIndex, required String label}) async {
+Future<void> addSubaddress({required int accountIndex, required String label}) async {
     await compute<Map<String, Object>, void>(
         _addSubaddress, {'accountIndex': accountIndex, 'label': label});
     await store();
 }
 
-Future setLabelForSubaddress(
+Future<void> setLabelForSubaddress(
         {required int accountIndex, required int addressIndex, required String label}) async {
   await compute<Map<String, Object>, void>(_setLabelForSubaddress, {
     'accountIndex': accountIndex,

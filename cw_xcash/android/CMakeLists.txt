@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 add_library( cw_xcash
              SHARED
-##             ./jni/monero_jni.cpp
+             ./jni/xcash_jni.cpp
              ../ios/Classes/xcash_api.cpp)
 
              find_library( log-lib log )
@@ -133,9 +133,9 @@ add_library(epee STATIC IMPORTED)
 set_target_properties(epee PROPERTIES IMPORTED_LOCATION
         ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libepee.a)
 
-## add_library(blocks STATIC IMPORTED)
-## set_target_properties(blocks PROPERTIES IMPORTED_LOCATION
-##        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libblocks.a)      come back to this
+add_library(blocks STATIC IMPORTED)
+set_target_properties(blocks PROPERTIES IMPORTED_LOCATION
+        ${EXTERNAL_LIBS_DIR}/${ANDROID_ABI}/lib/xcash/libblocks.a)
 
 add_library(checkpoints STATIC IMPORTED)
 set_target_properties(checkpoints PROPERTIES IMPORTED_LOCATION

@@ -256,7 +256,7 @@ class PortugueseMnemonics {
     "cetro",
     "ceus",
     "cevar",
-    "cxcasha",
+    "chavena",
     "cheroqui",
     "chita",
     "chovido",

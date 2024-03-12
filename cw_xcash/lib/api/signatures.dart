@@ -1,6 +1,8 @@
 import 'dart:ffi';
-import 'package:cw_xcash/api/structs/pending_transaction.dart';
-import 'package:cw_xcash/api/structs/ut8_box.dart';
+import 'package:cw_monero/api/structs/coins_info_row.dart';
+import 'package:cw_monero/api/structs/pending_transaction.dart';
+import 'package:cw_monero/api/structs/transaction_info_row.dart';
+import 'package:cw_monero/api/structs/ut8_box.dart';
 import 'package:ffi/ffi.dart';
 
 typedef create_wallet = Int8 Function(
@@ -9,8 +11,11 @@ typedef create_wallet = Int8 Function(
 typedef restore_wallet_from_seed = Int8 Function(
     Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32, Int64, Pointer<Utf8>);
 
-typedef restore_wallet_from_keys = Int8 Function(Pointer<Utf8>, Pointer<Utf8>,
-    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32, Int64, Pointer<Utf8>);
+typedef restore_wallet_from_keys = Int8 Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>,
+    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32, Int64, Pointer<Utf8>);
+
+typedef restore_wallet_from_spend_key = Int8 Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>,
+    Pointer<Utf8>, Pointer<Utf8>, Int32, Int64, Pointer<Utf8>);
 
 typedef is_wallet_exist = Int8 Function(Pointer<Utf8>);
 
@@ -23,10 +28,6 @@ typedef get_filename = Pointer<Utf8> Function();
 typedef get_seed = Pointer<Utf8> Function();
 
 typedef get_address = Pointer<Utf8> Function(Int32, Int32);
-
-typedef get_full_balance = Pointer<Int64> Function(Int32);
-
-typedef get_unlocked_balance = Pointer<Int64> Function(Int32);
 
 typedef get_full_balanace = Int64 Function(Int32);
 
@@ -67,8 +68,7 @@ typedef subaddrress_refresh = Void Function(Int32);
 
 typedef subaddress_get_all = Pointer<Int64> Function();
 
-typedef subaddress_add_new = Void Function(
-    Int32 accountIndex, Pointer<Utf8> label);
+typedef subaddress_add_new = Void Function(Int32 accountIndex, Pointer<Utf8> label);
 
 typedef subaddress_set_label = Void Function(
     Int32 accountIndex, Int32 addressIndex, Pointer<Utf8> label);
@@ -81,10 +81,11 @@ typedef account_get_all = Pointer<Int64> Function();
 
 typedef account_add_new = Void Function(Pointer<Utf8> label);
 
-typedef account_set_label = Void Function(
-    Int32 accountIndex, Pointer<Utf8> label);
+typedef account_set_label = Void Function(Int32 accountIndex, Pointer<Utf8> label);
 
 typedef transactions_refresh = Void Function();
+
+typedef get_transaction = Pointer<TransactionInfoRow> Function(Pointer<Utf8> txId);
 
 typedef get_tx_key = Pointer<Utf8>? Function(Pointer<Utf8> txId);
 
@@ -94,22 +95,24 @@ typedef transactions_get_all = Pointer<Int64> Function();
 
 typedef transaction_create = Int8 Function(
     Pointer<Utf8> address,
-    Pointer<Utf8> assetType,
     Pointer<Utf8> paymentId,
     Pointer<Utf8> amount,
     Int8 priorityRaw,
     Int32 subaddrAccount,
+    Pointer<Pointer<Utf8>> preferredInputs,
+    Int32 preferredInputsSize,
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef transaction_create_mult_dest = Int8 Function(
     Pointer<Pointer<Utf8>> addresses,
-    Pointer<Utf8> assetType,
     Pointer<Utf8> paymentId,
     Pointer<Pointer<Utf8>> amounts,
     Int32 size,
     Int8 priorityRaw,
     Int32 subaddrAccount,
+    Pointer<Pointer<Utf8>> preferredInputs,
+    Int32 preferredInputsSize,
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
@@ -129,16 +132,22 @@ typedef on_startup = Void Function();
 
 typedef rescan_blockchain = Void Function();
 
-typedef asset_types = Pointer<Pointer<Utf8>> Function();
-
-typedef asset_types_size = Int32 Function();
-
-typedef get_rate = Pointer<Int64> Function();
-
-typedef size_of_rate = Int32 Function();
-
-typedef update_rate = Void Function();
+typedef get_subaddress_label = Pointer<Utf8> Function(Int32 accountIndex, Int32 addressIndex);
 
 typedef set_trusted_daemon = Void Function(Int8 trusted);
 
 typedef trusted_daemon = Int8 Function();
+
+typedef refresh_coins = Void Function(Int32 accountIndex);
+
+typedef coins_count = Int64 Function();
+
+// typedef coins_from_txid = Pointer<CoinsInfoRow> Function(Pointer<Utf8> txid);
+
+typedef coin = Pointer<CoinsInfoRow> Function(Int32 index);
+
+typedef freeze_coin = Void Function(Int32 index);
+
+typedef thaw_coin = Void Function(Int32 index);
+
+typedef sign_message = Pointer<Utf8> Function(Pointer<Utf8> message, Pointer<Utf8> address);

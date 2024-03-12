@@ -1,4 +1,4 @@
-group 'com.cakewallet.cw_xcash'
+group 'com.cakewallet.monero'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -32,6 +32,10 @@ android {
     }
     defaultConfig {
         minSdkVersion 21
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
     }
     externalNativeBuild {
         cmake {

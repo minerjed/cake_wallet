@@ -1,29 +1,29 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
-import 'package:cw_xcash/api/signatures.dart';
-import 'package:cw_xcash/api/types.dart';
-import 'package:cw_xcash/api/xcash_api.dart';
-import 'package:cw_xcash/api/structs/account_row.dart';
+import 'package:cw_monero/api/signatures.dart';
+import 'package:cw_monero/api/types.dart';
+import 'package:cw_monero/api/monero_api.dart';
+import 'package:cw_monero/api/structs/account_row.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cw_xcash/api/wallet.dart';
+import 'package:cw_monero/api/wallet.dart';
 
-final accountSizeNative = xcashApi
+final accountSizeNative = moneroApi
     .lookup<NativeFunction<account_size>>('account_size')
     .asFunction<SubaddressSize>();
 
-final accountRefreshNative = xcashApi
+final accountRefreshNative = moneroApi
     .lookup<NativeFunction<account_refresh>>('account_refresh')
     .asFunction<AccountRefresh>();
 
-final accountGetAllNative = xcashApi
+final accountGetAllNative = moneroApi
     .lookup<NativeFunction<account_get_all>>('account_get_all')
     .asFunction<AccountGetAll>();
 
-final accountAddNewNative = xcashApi
+final accountAddNewNative = moneroApi
     .lookup<NativeFunction<account_add_new>>('account_add_row')
     .asFunction<AccountAddNew>();
 
-final accountSetLabelNative = xcashApi
+final accountSetLabelNative = moneroApi
     .lookup<NativeFunction<account_set_label>>('account_set_label_row')
     .asFunction<AccountSetLabel>();
 
